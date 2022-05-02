@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BotenODK_API.Data;
 using BotenODK_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BotenODK_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -53,6 +55,10 @@ namespace BotenODK_API.Controllers
                 return BadRequest();
             }
 
+            // hashing the password
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = hashedPassword;
+
             _context.Entry(user).State = EntityState.Modified;
 
             try
@@ -79,6 +85,10 @@ namespace BotenODK_API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            // hash password from user
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = hashedPassword;
+
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
