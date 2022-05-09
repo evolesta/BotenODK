@@ -18,5 +18,13 @@ namespace BotenODK_API.Data
         public DbSet<BotenODK_API.Models.User> User { get; set; }
 
         public DbSet<BotenODK_API.Models.FeedQueue> FeedQueue { get; set; }
+
+        public DbSet<BotenODK_API.Models.Livefeed> Livefeed { get; set; }
+
+        public DbSet<BotenODK_API.Models.ObjectDetection> ObjectDetection { get; set; }
+
+        public DbSet<BotenODK_API.Models.DataModel> DataModel { get; set; }
+
+        public DbSet<BotenODK_API.Models.DetectedData> DetectedData { get; set; }
     }
 }

@@ -10,47 +10,47 @@ namespace BotenODK_API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedQueuesController : ControllerBase
+    public class DataModelsController : ControllerBase
     {
         private readonly BotenODK_APIContext _context;
 
-        public FeedQueuesController(BotenODK_APIContext context)
+        public DataModelsController(BotenODK_APIContext context)
         {
             _context = context;
         }
 
-        // GET: api/FeedQueues
+        // GET: api/DataModels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FeedQueue>>> GetFeedQueue()
+        public async Task<ActionResult<IEnumerable<DataModel>>> GetDataModel()
         {
-            return await _context.FeedQueue.ToListAsync();
+            return await _context.DataModel.ToListAsync();
         }
 
-        // GET: api/FeedQueues/5
+        // GET: api/DataModels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedQueue>> GetFeedQueue(int id)
+        public async Task<ActionResult<DataModel>> GetDataModel(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
+            var dataModel = await _context.DataModel.FindAsync(id);
 
-            if (feedQueue == null)
+            if (dataModel == null)
             {
                 return NotFound();
             }
 
-            return feedQueue;
+            return dataModel;
         }
 
-        // PUT: api/FeedQueues/5
+        // PUT: api/DataModels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedQueue(int id, FeedQueue feedQueue)
+        public async Task<IActionResult> PutDataModel(int id, DataModel dataModel)
         {
-            if (id != feedQueue.Id)
+            if (id != dataModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(feedQueue).State = EntityState.Modified;
+            _context.Entry(dataModel).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace BotenODK_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeedQueueExists(id))
+                if (!DataModelExists(id))
                 {
                     return NotFound();
                 }
@@ -71,36 +71,36 @@ namespace BotenODK_API.Controllers
             return NoContent();
         }
 
-        // POST: api/FeedQueues
+        // POST: api/DataModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FeedQueue>> PostFeedQueue(FeedQueue feedQueue)
+        public async Task<ActionResult<DataModel>> PostDataModel(DataModel dataModel)
         {
-            _context.FeedQueue.Add(feedQueue);
+            _context.DataModel.Add(dataModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFeedQueue", new { id = feedQueue.Id }, feedQueue);
+            return CreatedAtAction("GetDataModel", new { id = dataModel.Id }, dataModel);
         }
 
-        // DELETE: api/FeedQueues/5
+        // DELETE: api/DataModels/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedQueue(int id)
+        public async Task<IActionResult> DeleteDataModel(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
-            if (feedQueue == null)
+            var dataModel = await _context.DataModel.FindAsync(id);
+            if (dataModel == null)
             {
                 return NotFound();
             }
 
-            _context.FeedQueue.Remove(feedQueue);
+            _context.DataModel.Remove(dataModel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool FeedQueueExists(int id)
+        private bool DataModelExists(int id)
         {
-            return _context.FeedQueue.Any(e => e.Id == id);
+            return _context.DataModel.Any(e => e.Id == id);
         }
     }
 }

@@ -10,47 +10,47 @@ namespace BotenODK_API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedQueuesController : ControllerBase
+    public class DetectedDatasController : ControllerBase
     {
         private readonly BotenODK_APIContext _context;
 
-        public FeedQueuesController(BotenODK_APIContext context)
+        public DetectedDatasController(BotenODK_APIContext context)
         {
             _context = context;
         }
 
-        // GET: api/FeedQueues
+        // GET: api/DetectedDatas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FeedQueue>>> GetFeedQueue()
+        public async Task<ActionResult<IEnumerable<DetectedData>>> GetDetectedData()
         {
-            return await _context.FeedQueue.ToListAsync();
+            return await _context.DetectedData.ToListAsync();
         }
 
-        // GET: api/FeedQueues/5
+        // GET: api/DetectedDatas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedQueue>> GetFeedQueue(int id)
+        public async Task<ActionResult<DetectedData>> GetDetectedData(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
+            var detectedData = await _context.DetectedData.FindAsync(id);
 
-            if (feedQueue == null)
+            if (detectedData == null)
             {
                 return NotFound();
             }
 
-            return feedQueue;
+            return detectedData;
         }
 
-        // PUT: api/FeedQueues/5
+        // PUT: api/DetectedDatas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedQueue(int id, FeedQueue feedQueue)
+        public async Task<IActionResult> PutDetectedData(int id, DetectedData detectedData)
         {
-            if (id != feedQueue.Id)
+            if (id != detectedData.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(feedQueue).State = EntityState.Modified;
+            _context.Entry(detectedData).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace BotenODK_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeedQueueExists(id))
+                if (!DetectedDataExists(id))
                 {
                     return NotFound();
                 }
@@ -71,36 +71,36 @@ namespace BotenODK_API.Controllers
             return NoContent();
         }
 
-        // POST: api/FeedQueues
+        // POST: api/DetectedDatas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FeedQueue>> PostFeedQueue(FeedQueue feedQueue)
+        public async Task<ActionResult<DetectedData>> PostDetectedData(DetectedData detectedData)
         {
-            _context.FeedQueue.Add(feedQueue);
+            _context.DetectedData.Add(detectedData);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFeedQueue", new { id = feedQueue.Id }, feedQueue);
+            return CreatedAtAction("GetDetectedData", new { id = detectedData.Id }, detectedData);
         }
 
-        // DELETE: api/FeedQueues/5
+        // DELETE: api/DetectedDatas/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedQueue(int id)
+        public async Task<IActionResult> DeleteDetectedData(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
-            if (feedQueue == null)
+            var detectedData = await _context.DetectedData.FindAsync(id);
+            if (detectedData == null)
             {
                 return NotFound();
             }
 
-            _context.FeedQueue.Remove(feedQueue);
+            _context.DetectedData.Remove(detectedData);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool FeedQueueExists(int id)
+        private bool DetectedDataExists(int id)
         {
-            return _context.FeedQueue.Any(e => e.Id == id);
+            return _context.DetectedData.Any(e => e.Id == id);
         }
     }
 }

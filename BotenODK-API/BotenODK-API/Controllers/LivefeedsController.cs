@@ -10,47 +10,47 @@ namespace BotenODK_API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedQueuesController : ControllerBase
+    public class LivefeedsController : ControllerBase
     {
         private readonly BotenODK_APIContext _context;
 
-        public FeedQueuesController(BotenODK_APIContext context)
+        public LivefeedsController(BotenODK_APIContext context)
         {
             _context = context;
         }
 
-        // GET: api/FeedQueues
+        // GET: api/Livefeeds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FeedQueue>>> GetFeedQueue()
+        public async Task<ActionResult<IEnumerable<Livefeed>>> GetLivefeed()
         {
-            return await _context.FeedQueue.ToListAsync();
+            return await _context.Livefeed.ToListAsync();
         }
 
-        // GET: api/FeedQueues/5
+        // GET: api/Livefeeds/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedQueue>> GetFeedQueue(int id)
+        public async Task<ActionResult<Livefeed>> GetLivefeed(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
+            var livefeed = await _context.Livefeed.FindAsync(id);
 
-            if (feedQueue == null)
+            if (livefeed == null)
             {
                 return NotFound();
             }
 
-            return feedQueue;
+            return livefeed;
         }
 
-        // PUT: api/FeedQueues/5
+        // PUT: api/Livefeeds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedQueue(int id, FeedQueue feedQueue)
+        public async Task<IActionResult> PutLivefeed(int id, Livefeed livefeed)
         {
-            if (id != feedQueue.Id)
+            if (id != livefeed.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(feedQueue).State = EntityState.Modified;
+            _context.Entry(livefeed).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace BotenODK_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeedQueueExists(id))
+                if (!LivefeedExists(id))
                 {
                     return NotFound();
                 }
@@ -71,36 +71,36 @@ namespace BotenODK_API.Controllers
             return NoContent();
         }
 
-        // POST: api/FeedQueues
+        // POST: api/Livefeeds
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FeedQueue>> PostFeedQueue(FeedQueue feedQueue)
+        public async Task<ActionResult<Livefeed>> PostLivefeed(Livefeed livefeed)
         {
-            _context.FeedQueue.Add(feedQueue);
+            _context.Livefeed.Add(livefeed);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFeedQueue", new { id = feedQueue.Id }, feedQueue);
+            return CreatedAtAction("GetLivefeed", new { id = livefeed.Id }, livefeed);
         }
 
-        // DELETE: api/FeedQueues/5
+        // DELETE: api/Livefeeds/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedQueue(int id)
+        public async Task<IActionResult> DeleteLivefeed(int id)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
-            if (feedQueue == null)
+            var livefeed = await _context.Livefeed.FindAsync(id);
+            if (livefeed == null)
             {
                 return NotFound();
             }
 
-            _context.FeedQueue.Remove(feedQueue);
+            _context.Livefeed.Remove(livefeed);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool FeedQueueExists(int id)
+        private bool LivefeedExists(int id)
         {
-            return _context.FeedQueue.Any(e => e.Id == id);
+            return _context.Livefeed.Any(e => e.Id == id);
         }
     }
 }
