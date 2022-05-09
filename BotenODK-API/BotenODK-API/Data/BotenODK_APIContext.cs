@@ -16,5 +16,7 @@ namespace BotenODK_API.Data
         }
 
         public DbSet<BotenODK_API.Models.User> User { get; set; }
+
+        public DbSet<BotenODK_API.Models.FeedQueue> FeedQueue { get; set; }
     }
 }
