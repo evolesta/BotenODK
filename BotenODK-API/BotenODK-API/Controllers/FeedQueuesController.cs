@@ -82,18 +82,36 @@ namespace BotenODK_API.Controllers
             return CreatedAtAction("GetFeedQueue", new { id = feedQueue.Id }, feedQueue);
         }
 
-        // DELETE: api/FeedQueues/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedQueue(int id)
+        // PUT: api/FeedQueues/setSuccesfull/5
+        [HttpPut("setSuccessful/{id}")]
+        public async Task<IActionResult> SetSuccessful(int id, [FromBody] string content)
         {
-            var feedQueue = await _context.FeedQueue.FindAsync(id);
-            if (feedQueue == null)
-            {
-                return NotFound();
-            }
+            return Ok(content);
+        }
 
-            _context.FeedQueue.Remove(feedQueue);
-            await _context.SaveChangesAsync();
+        // DELETE: api/FeedQueues/delete/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var queueItem = await _context.FeedQueue.FindAsync(id);
+            if (queueItem == null)
+                return NotFound();
+
+            queueItem.Deleted = true;
+            queueItem.Status = FeedQueue.Statusses.Deleted;
+            _context.Entry(queueItem).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FeedQueueExists(id))
+                    return NotFound();
+                else
+                    throw;
+            }
 
             return NoContent();
         }
