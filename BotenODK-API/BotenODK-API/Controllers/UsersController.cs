@@ -1,16 +1,13 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BotenODK_API.Data;
 using BotenODK_API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BotenODK_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -24,16 +21,33 @@ namespace BotenODK_API.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUser()
         {
-            return await _context.User.ToListAsync();
+            var Users = from u in _context.User
+                        select new UserDto()
+                        {
+                            Id = u.Id,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName,
+                            Email = u.Email,
+                            Username = u.Username,
+                        };
+            return await Users.ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.User.Select(u =>
+                new UserDto()
+                {
+                    Id = u.Id,
+                    FirstName=u.FirstName,
+                    LastName=u.LastName,
+                    Email=u.Email,
+                    Username=u.Username,
+                }).SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -52,6 +66,10 @@ namespace BotenODK_API.Controllers
             {
                 return BadRequest();
             }
+
+            // hashing the password
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = hashedPassword;
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -79,10 +97,23 @@ namespace BotenODK_API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            // hash password from user
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            user.Password = hashedPassword;
+
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var dto = new UserDto()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Username = user.Username,
+            };
+
+            return CreatedAtAction("GetUser", new { id = user.Id }, dto);
         }
 
         // DELETE: api/Users/5
