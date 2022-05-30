@@ -22,6 +22,52 @@ namespace BotenODK_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BotenODK_API.Models.DataModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("COCOKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataModel");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.DetectedData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DataModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DataModelId");
+
+                    b.ToTable("DetectedData");
+                });
+
             modelBuilder.Entity("BotenODK_API.Models.FeedQueue", b =>
                 {
                     b.Property<int>("Id")
@@ -58,42 +104,21 @@ namespace BotenODK_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Filepath")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaxDuration")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Livefeed");
-                });
-
-            modelBuilder.Entity("BotenODK_API.Models.ObjectDetection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("LivefeedId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("SensityMovement")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LivefeedId");
-
-                    b.ToTable("Object");
                 });
 
             modelBuilder.Entity("BotenODK_API.Models.User", b =>
@@ -103,6 +128,9 @@ namespace BotenODK_API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AuthToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -122,25 +150,28 @@ namespace BotenODK_API.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("checksum")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("BotenODK_API.Models.ObjectDetection", b =>
+            modelBuilder.Entity("BotenODK_API.Models.DetectedData", b =>
                 {
-                    b.HasOne("BotenODK_API.Models.Livefeed", "Livefeed")
-                        .WithMany("Objects")
-                        .HasForeignKey("LivefeedId")
+                    b.HasOne("BotenODK_API.Models.DataModel", "DataModel")
+                        .WithMany("Data")
+                        .HasForeignKey("DataModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Livefeed");
+                    b.Navigation("DataModel");
                 });
 
-            modelBuilder.Entity("BotenODK_API.Models.Livefeed", b =>
+            modelBuilder.Entity("BotenODK_API.Models.DataModel", b =>
                 {
-                    b.Navigation("Objects");
+                    b.Navigation("Data");
                 });
 #pragma warning restore 612, 618
         }

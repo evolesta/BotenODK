@@ -1,0 +1,6 @@
+{
+    "APIURL": "https://localhost:49155/api", 
+    "AUTHTOKEN": "Vp62jwXo5eNoiS9gQLCohePHBJtulOV03ql+FOnN/qWZaa5oKpF/WgJWmUi7vIKhYQu9PDkguKFqlZ1e8Cn+Xw==",
+    "FRAMES_PATH": "C:/repos/BotenODK/BotenODK-ObjectDetectionKit/frames",
+    "PROCESS_LIMIT": 10
+}

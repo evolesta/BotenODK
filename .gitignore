@@ -3,3 +3,7 @@ BotenODK/BotenODK/bin/Debug
 BotenODK/BotenODK/obj/Debug
 BotenODK-ObjectDetectionKit/venv
 BotenODK-ObjectDetectionKit/yolov3.weights
+BotenODK-ObjectDetectionKit/__pycache__
+BotenODK-ObjectDetectionKit/frames
+BotenODK-ObjectDetectionKit/testdata
+*.weights
