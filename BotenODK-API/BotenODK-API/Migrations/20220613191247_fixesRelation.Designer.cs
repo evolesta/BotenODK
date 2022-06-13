@@ -4,6 +4,7 @@ using BotenODK_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BotenODK_API.Migrations
 {
     [DbContext(typeof(BotenODK_APIContext))]
-    partial class BotenODK_APIContextModelSnapshot : ModelSnapshot
+    [Migration("20220613191247_fixesRelation")]
+    partial class fixesRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +26,11 @@ namespace BotenODK_API.Migrations
 
             modelBuilder.Entity("BotenODK_API.Models.DataModel", b =>
                 {
-                    b.Property<int>("DataModelId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DataModelId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("COCOKey")
                         .HasColumnType("nvarchar(max)");
@@ -42,7 +44,7 @@ namespace BotenODK_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DataModelId");
+                    b.HasKey("Id");
 
                     b.ToTable("DataModel");
                 });

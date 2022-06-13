@@ -43,7 +43,7 @@ def GetFramesFromStream():
                 except HTTPError as err:
                     raise("HTTP error: " + err)
 
-def ProcessImage(filepath, id):
+def ProcessImage(filepath, id, dataModels):
     # change queue item into InProgress
     try:
         requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers, verify=False)
@@ -97,14 +97,27 @@ def ProcessImage(filepath, id):
     font = cv2.FONT_HERSHEY_PLAIN
     for i in range(len(boxes)):
         if i in indexes:
-            # this section will handle the detected objects - generating boxes and labels
+            # save current label (coco name) from detected object
             label = str(classes[class_ids[i]])
-            x, y, w, h = boxes[i]
-            color = colors[i]
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 2, color, 3)
+            
+            # loop trough list of objects
+            for dataModel in dataModels:
+                if dataModel["cocoKey"] == label and dataModel["enabled"]:
+                    # add box and label to image
+                    x, y, w, h = boxes[i]
+                    color = colors[i]
+                    cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
+                    cv2.putText(img, label, (x, y + 30), font, 2, color, 3)
 
-            # add data to API
+                    # add detected data to API
+                    try:
+                        body = {
+                            "description": label,
+                            "dataModelId": dataModel["dataModelId"]
+                        }
+                        requests.post(auth.config["APIURL"] + "/DetectedDatas", headers=headers, json=body, verify=False)
+                    except HTTPError as err:
+                        print("Error: " + err)
 
     # write processed image with boxes to output directory
     newFilepath = filepath.replace(".jpg", "-processed.jpg")
@@ -127,17 +140,20 @@ headers = {
 
 # get a list of new queue items from API to process
 try:
-    response = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
+    queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
+    objectsResponse = requests.get(auth.config["APIURL"] + "/DataModels", headers=headers, verify=False)
+
 except HTTPError as err:
     raise("HTTP Error: " + err)
 
 # create a json object to handle and loop trough results
-queueItems = response.json()
+queueItems = queueitemsResponse.json()
+dataModels = objectsResponse.json()
 for queueItem in queueItems:
     print("Process queueitem " + str(queueItem["id"]))
 
     # procces image
-    ProcessImage(queueItem["filepath"], str(queueItem["id"]))
+    ProcessImage(queueItem["filepath"], str(queueItem["id"]), dataModels)
 
 # get frames from livefeeds to analyse at the next run
 GetFramesFromStream()

@@ -2,11 +2,10 @@
 {
     public class DataModel
     {
-        public int Id { get; set; }
+        public int DataModelId { get; set; }
         public string? Name { get; set; }
+        public string? Description { get; set; }
         public string? COCOKey { get; set; }
-        
-        // relation
-        public List<DetectedData>? Data { get; set; }
+        public bool Enabled { get; set; }
     }
 }
