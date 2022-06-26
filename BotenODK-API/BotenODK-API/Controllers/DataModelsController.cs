@@ -45,7 +45,7 @@ namespace BotenODK_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDataModel(int id, DataModel dataModel)
         {
-            if (id != dataModel.Id)
+            if (id != dataModel.DataModelId)
             {
                 return BadRequest();
             }
@@ -79,7 +79,7 @@ namespace BotenODK_API.Controllers
             _context.DataModel.Add(dataModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDataModel", new { id = dataModel.Id }, dataModel);
+            return CreatedAtAction("GetDataModel", new { id = dataModel.DataModelId }, dataModel);
         }
 
         // DELETE: api/DataModels/5
@@ -100,7 +100,7 @@ namespace BotenODK_API.Controllers
 
         private bool DataModelExists(int id)
         {
-            return _context.DataModel.Any(e => e.Id == id);
+            return _context.DataModel.Any(e => e.DataModelId == id);
         }
     }
 }

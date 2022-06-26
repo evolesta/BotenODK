@@ -4,6 +4,7 @@ using BotenODK_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BotenODK_API.Migrations
 {
     [DbContext(typeof(BotenODK_APIContext))]
-    partial class BotenODK_APIContextModelSnapshot : ModelSnapshot
+    [Migration("20220603121833_alteredUsermodel")]
+    partial class alteredUsermodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,25 +26,19 @@ namespace BotenODK_API.Migrations
 
             modelBuilder.Entity("BotenODK_API.Models.DataModel", b =>
                 {
-                    b.Property<int>("DataModelId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DataModelId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("COCOKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DataModelId");
+                    b.HasKey("Id");
 
                     b.ToTable("DataModel");
                 });
@@ -55,19 +51,21 @@ namespace BotenODK_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("DataModelId")
+                    b.Property<int>("DataModelId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FeedId")
+                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DataModelId");
 
                     b.ToTable("DetectedData");
                 });
@@ -108,21 +106,42 @@ namespace BotenODK_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Filepath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
+                    b.Property<string>("MaxDuration")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Livefeed");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.ObjectDetection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LivefeedId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("SensityMovement")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivefeedId");
+
+                    b.ToTable("ObjectDetection");
                 });
 
             modelBuilder.Entity("BotenODK_API.Models.User", b =>
@@ -160,6 +179,38 @@ namespace BotenODK_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.DetectedData", b =>
+                {
+                    b.HasOne("BotenODK_API.Models.DataModel", "DataModel")
+                        .WithMany("Data")
+                        .HasForeignKey("DataModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DataModel");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.ObjectDetection", b =>
+                {
+                    b.HasOne("BotenODK_API.Models.Livefeed", "Livefeed")
+                        .WithMany("Objects")
+                        .HasForeignKey("LivefeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livefeed");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.DataModel", b =>
+                {
+                    b.Navigation("Data");
+                });
+
+            modelBuilder.Entity("BotenODK_API.Models.Livefeed", b =>
+                {
+                    b.Navigation("Objects");
                 });
 #pragma warning restore 612, 618
         }

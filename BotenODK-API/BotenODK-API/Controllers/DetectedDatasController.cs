@@ -76,6 +76,7 @@ namespace BotenODK_API.Controllers
         [HttpPost]
         public async Task<ActionResult<DetectedData>> PostDetectedData(DetectedData detectedData)
         {
+            detectedData.Timestamp = DateTime.Now;
             _context.DetectedData.Add(detectedData);
             await _context.SaveChangesAsync();
 

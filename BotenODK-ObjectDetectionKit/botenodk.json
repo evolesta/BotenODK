@@ -1,0 +1,12 @@
+{
+    "APIURL": "https://localhost:49153/api", 
+    "AUTHTOKEN": "2ZB7KYVJd905P3wEpElM5vOfTd78jWWO0g6w4nW3u8IAHuUpVmmsvPxruyJXv3NSgE5uveNlBIxoIWcU5eX4FQ==",
+    "FRAMES_PATH": "C:/repos/BotenODK/BotenODK-ObjectDetectionKit/frames",
+    "PROCESS_LIMIT": 2,
+    "DELETE_FRAME_AFTER_PROCESSING": "NO",
+    "YOLO": {
+        "WEIGHTS": "yolov3.weights",
+        "CFG": "yolov3.cfg",
+        "NAMES": "coco.names"
+    }
+}
