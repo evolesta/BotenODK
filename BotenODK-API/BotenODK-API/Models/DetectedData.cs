@@ -10,6 +10,6 @@ namespace BotenODK_API.Models
         
         // relations
         public int? DataModelId { get; set; }
-        public DataModel? DataModel { get; set; }
+        public int? FeedId { get; set; }
     }
 }

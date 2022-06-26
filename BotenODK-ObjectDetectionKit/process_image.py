@@ -19,7 +19,7 @@ def GetFramesFromStream():
     for feed in feeds:
         # only extract a frame when the feed is enabled
         if feed["enabled"]:
-            print("Process feed " + feed["name"])
+            print("Retrieve new frame from feed " + feed["name"])
 
             capture = cv2.VideoCapture(feed["url"])
             success,image = capture.read()
@@ -43,8 +43,9 @@ def GetFramesFromStream():
                 except HTTPError as err:
                     raise("HTTP error: " + err)
 
-def ProcessImage(filepath, id, dataModels):
+def ProcessImage(filepath, id, feedId, dataModels):
     # change queue item into InProgress
+    print("Process ODK to frame " + id)
     try:
         requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers, verify=False)
     except HTTPError as err:
@@ -104,6 +105,7 @@ def ProcessImage(filepath, id, dataModels):
             for dataModel in dataModels:
                 if dataModel["cocoKey"] == label and dataModel["enabled"]:
                     # add box and label to image
+                    print("Found object " + label + " in frame")
                     x, y, w, h = boxes[i]
                     color = colors[i]
                     cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
@@ -113,7 +115,8 @@ def ProcessImage(filepath, id, dataModels):
                     try:
                         body = {
                             "description": label,
-                            "dataModelId": dataModel["dataModelId"]
+                            "dataModelId": dataModel["dataModelId"],
+                            "feedId": feedId
                         }
                         requests.post(auth.config["APIURL"] + "/DetectedDatas", headers=headers, json=body, verify=False)
                     except HTTPError as err:
@@ -121,7 +124,8 @@ def ProcessImage(filepath, id, dataModels):
 
     # write processed image with boxes to output directory
     newFilepath = filepath.replace(".jpg", "-processed.jpg")
-    cv2.imwrite(newFilepath, img)
+    if auth.config["DELETE_FRAME_AFTER_PROCESSING"] != "YES":
+        cv2.imwrite(newFilepath, img)
 
     # set queue item to successful
     try:
@@ -153,7 +157,7 @@ for queueItem in queueItems:
     print("Process queueitem " + str(queueItem["id"]))
 
     # procces image
-    ProcessImage(queueItem["filepath"], str(queueItem["id"]), dataModels)
+    ProcessImage(queueItem["filepath"], str(queueItem["id"]), str(queueItem["feed"]), dataModels)
 
 # get frames from livefeeds to analyse at the next run
 GetFramesFromStream()
