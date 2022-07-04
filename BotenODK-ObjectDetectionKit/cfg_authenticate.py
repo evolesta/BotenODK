@@ -38,10 +38,20 @@ class APIAuthenticate:
             with open("botenodk.json", 'w') as cfg:
                 json.dump(self.config, cfg)
 
-            print("Authorization successfull, your auth token is: " + authResponse["authToken"])
+            print("Authorization successful, your auth token is: " + authResponse["authToken"])
             print("Your token is saved to the configuration file: botenodk.json")
         else:
-            print("You are already authenticated, or the AUTHTOKEN value in the config contains (some) data. Please clear the value if you want to retrieve a new authorization token.")
+            print("You are already authenticated, or the AUTHTOKEN value in the config contains (some) data. Do you want to set a new token (y/n)?")
+            while True:
+                confirm = input()
+
+                if confirm == "y":
+                    self.config["AUTHTOKEN"] = ""
+                    self.GenerateAuthToken(self, username, password)
+                    return True
+                else:
+                    exit()
+
 
     # function to retrieve a new temporary access token from the API
     def GetAccessToken(self):

@@ -10,11 +10,11 @@
         "projectUniqueName": "C:\\repos\\BotenODK\\BotenODK-API\\BotenODK-API\\BotenODK-API.csproj",
         "projectName": "BotenODK-API",
         "projectPath": "C:\\repos\\BotenODK\\BotenODK-API\\BotenODK-API\\BotenODK-API.csproj",
-        "packagesPath": "C:\\Users\\elange\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\e94\\.nuget\\packages\\",
         "outputPath": "C:\\repos\\BotenODK\\BotenODK-API\\BotenODK-API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\elange\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\e94\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

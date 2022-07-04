@@ -27,7 +27,7 @@ def GetFramesFromStream():
             timestamp = timestamp.strftime("%d%m%Y-%H%M%S")
 
             if(capture.isOpened()):
-                filepath = auth.config["FRAMES_PATH"] + "/frame-" + feed["name"] + "-" + timestamp + ".jpg"
+                filepath = auth.config["FRAMES_PATH"] + "/" + timestamp + "-" + feed["name"] + "-frame.jpg"
                 cv2.imwrite(filepath, image)
                 success,image = capture.read()
 
@@ -142,6 +142,9 @@ headers = {
     "Authorization": "Bearer " + accesstoken 
 }
 
+# get frames from livefeeds to analyse at the next run
+GetFramesFromStream()
+
 # get a list of new queue items from API to process
 try:
     queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
@@ -158,6 +161,3 @@ for queueItem in queueItems:
 
     # procces image
     ProcessImage(queueItem["filepath"], str(queueItem["id"]), str(queueItem["feed"]), dataModels)
-
-# get frames from livefeeds to analyse at the next run
-GetFramesFromStream()

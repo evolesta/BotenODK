@@ -25,8 +25,8 @@ Open a terminal and go to the directory containing the Python scripts and Docker
 Hit the following commands to build the image and run the container:
 
 ```
-docker build -t botenodk .
-docker run -it --rm --name botenodk botenodk
+docker build -t botenodk-odk .
+docker run -it --rm --name BotenODK-ODK botenodk-odk
 ```
 
 # Troubleshooting
