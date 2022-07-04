@@ -5,6 +5,7 @@ import requests
 import os
 import datetime
 from cfg_authenticate import APIAuthenticate as auth
+from time import time, sleep
 
  # download frames from a rtsp stream to a output directory to process and create a queue item
 def GetFramesFromStream():
@@ -136,28 +137,34 @@ def ProcessImage(filepath, id, feedId, dataModels):
     # delete original frame
     os.remove(filepath)
 
+def Process():
+    # get frames from livefeeds to analyse at the next run
+    GetFramesFromStream()
+
+    # get a list of new queue items from API to process
+    try:
+        queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
+        objectsResponse = requests.get(auth.config["APIURL"] + "/DataModels", headers=headers, verify=False)
+
+    except HTTPError as err:
+        raise("HTTP Error: " + err)
+
+    # create a json object to handle and loop trough results
+    queueItems = queueitemsResponse.json()
+    dataModels = objectsResponse.json()
+    for queueItem in queueItems:
+        print("Process queueitem " + str(queueItem["id"]))
+
+        # procces image
+        ProcessImage(queueItem["filepath"], str(queueItem["id"]), str(queueItem["feed"]), dataModels)
+
 # get a list of new queue items to process
 accesstoken = auth.GetAccessToken(auth)
 headers = {
     "Authorization": "Bearer " + accesstoken 
 }
 
-# get frames from livefeeds to analyse at the next run
-GetFramesFromStream()
-
-# get a list of new queue items from API to process
-try:
-    queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
-    objectsResponse = requests.get(auth.config["APIURL"] + "/DataModels", headers=headers, verify=False)
-
-except HTTPError as err:
-    raise("HTTP Error: " + err)
-
-# create a json object to handle and loop trough results
-queueItems = queueitemsResponse.json()
-dataModels = objectsResponse.json()
-for queueItem in queueItems:
-    print("Process queueitem " + str(queueItem["id"]))
-
-    # procces image
-    ProcessImage(queueItem["filepath"], str(queueItem["id"]), str(queueItem["feed"]), dataModels)
+while True:
+    Process()
+    print("Processing completed, waiting for " + str(auth.config["INTERVAL_IN_MINUTES"]) + " minutes interval")
+    sleep(auth.config["INTERVAL_IN_MINUTES"] * 60)
