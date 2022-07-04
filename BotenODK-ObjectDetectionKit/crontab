@@ -1,0 +1,3 @@
+# START CRON JOB
+*/5 * * * * /usr/local/bin/python /usr/src/app/process_image.py
+# END CRON JOB
