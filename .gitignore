@@ -7,3 +7,4 @@ BotenODK-ObjectDetectionKit/__pycache__
 BotenODK-ObjectDetectionKit/frames
 BotenODK-ObjectDetectionKit/testdata
 *.weights
+BotenODK-API/.vs

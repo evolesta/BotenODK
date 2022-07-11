@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\repos\BotenODK\BotenODK-API\BotenODK-API\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2022-07-11T08:09:44.3776056Z;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="BotenODK_APIContext">
+      <Value>dbb155fc-888a-4413-bb9f-f72adde14b93</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="BotenODK_API.Data.BotenODK_APIContext">
+      <Value>dbb155fc-888a-4413-bb9f-f72adde14b93</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

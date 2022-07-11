@@ -15,11 +15,18 @@ This will benefit you without advanced installation and configuring skills. Just
 # Installation
 
 ## Server API
-work in progress
+The server is the central heart of the solution. It will be necessary in order to run the object detection kit and the datadash web application.
+The server is a REST API written in ASP.NET. You don't need to setup any Windows Server or IIS, you can just run the server as a container. 
+You will have to build the image first, then you can run the container. Make sure your in the API folder of the respository.
+```
+docker build -f Dockerfile -t botenodk-api ..
+docker run -d -p 8000:5004 --name BotenODK-API -e "ASPNETCORE_URLS=http://+:5004" botenodk-api
+```
 
 ## Object Detection Kit
-Before you start, make sure you have a valid trained dataset. A dataset usually contains a large weights file (the models), a list of human readable object names and a cfg (config) file.
-Modify the botenodk.json configuration file to your needs and modify the filepaths.
+Before you start, make sure you have a valid trained dataset. A dataset usually contains a large weights file (the models), a list of human readable object names and a cfg (config) file. 
+By default, the repository already contains the cfg and names files for the COCO dataset. Go to https://pjreddie.com/darknet/yolo/ if you like to download the weights file.
+If you would like to use your own dataset or a different one, modify the botenodk.json configuration file.
 
 Open a terminal and go to the directory containing the Python scripts and Dockerfile. 
 Hit the following commands to build the image and run the container:
@@ -28,6 +35,9 @@ Hit the following commands to build the image and run the container:
 docker build -t botenodk-odk .
 docker run -it --rm --name BotenODK-ODK botenodk-odk
 ```
+
+## Datadash webapplication
+work in progress
 
 # Troubleshooting
 Problems with a dataset
