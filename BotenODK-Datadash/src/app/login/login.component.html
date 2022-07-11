@@ -1,0 +1,22 @@
+<h1 class="title">Datadash - BotenODK</h1>
+
+<mat-card class="loginbox">
+    <div class="login">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-toolbar class="toolbar" color="primary">
+                <h1>Login</h1>
+            </mat-toolbar>
+        
+            <mat-form-field appearance="legacy" class="input">
+                <mat-label>Gebruikersnaam</mat-label>
+                <input name="username" matInput formControlName="username">
+            </mat-form-field>
+            <mat-form-field appearance="legacy" class="input">
+                <mat-label>Wachtwoord</mat-label>
+                <input name="password" type="password" matInput formControlName="password">
+            </mat-form-field>
+            <button mat-raised-button color="basic">Inloggen</button> &nbsp; <a href="#">Wachtwoord vergeten?</a>
+        </form>
+    </div>
+
+</mat-card>

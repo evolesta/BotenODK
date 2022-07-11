@@ -1,0 +1,21 @@
+.title {
+    text-align: center;
+    margin-top: 175px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.loginbox {
+    top: 50px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login {
+    margin-top: 50px;
+}
+
+.input {
+    width: 100%;
+}
