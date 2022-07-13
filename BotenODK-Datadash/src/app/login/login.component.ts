@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { HttpServiceService } from '../http-service.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private snackbar: MatSnackBar,
-    private http: HttpServiceService) { }
+    private http: HttpServiceService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -37,8 +39,8 @@ export class LoginComponent implements OnInit {
 
       this.http.post("/token", body).subscribe(resp => {
         const response:any = resp.body;
-        this.http.AUTHTOKEN = response.token;
-
+        localStorage.setItem('token', response.token);
+        this.router.navigateByUrl("/dashboard");
       });
     }
   }
