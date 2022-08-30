@@ -4,3 +4,11 @@
     width: 75%;
     margin-top: 50px;
 }
+
+table {
+    width: 100%;
+}
+
+.btn {
+    margin-bottom: 15px;
+}

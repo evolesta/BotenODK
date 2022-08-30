@@ -15,10 +15,16 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DashboardComponent } from './secure/dashboard/dashboard.component';
 import { AheaderComponent } from './secure/aheader/aheader.component';
 import { AfooterComponent } from './secure/afooter/afooter.component';
+import { LogoutComponent } from './logout/logout.component';
+import { UsermanagementComponent } from './secure/usermanagement/usermanagement.component';
+import { AddUserComponent } from './secure/usermanagement/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,10 @@ import { AfooterComponent } from './secure/afooter/afooter.component';
     LoginComponent,
     DashboardComponent,
     AheaderComponent,
-    AfooterComponent
+    AfooterComponent,
+    LogoutComponent,
+    UsermanagementComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +49,10 @@ import { AfooterComponent } from './secure/afooter/afooter.component';
     ReactiveFormsModule,
     MatSnackBarModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true }

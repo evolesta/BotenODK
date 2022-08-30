@@ -28,13 +28,13 @@ export class GuardGuard implements CanActivate {
         }
         else {
           // token is expired
-          this.router.navigateByUrl("/login");
+          this.router.navigateByUrl("/");
           return false;
         }
       }
       else {
         // token isn't available or empty in localstorage
-        this.router.navigateByUrl("/login");
+        this.router.navigateByUrl("/");
         return false;
       }
   }
