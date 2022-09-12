@@ -38,9 +38,14 @@ export class LoginComponent implements OnInit {
       };
 
       this.http.post("/token", body).subscribe(resp => {
+        // succesful login
         const response:any = resp.body;
         localStorage.setItem('token', response.token);
         this.router.navigateByUrl("/dashboard");
+      }, error => {
+        this.snackbar.open("Onjuiste gebruikersnaam of wachtwoord!", "", {
+          duration: 4000
+        });
       });
     }
   }

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Model toevoegen</h1>
+
+<div mat-dialog-content>
+
+  <p>Voeg een nieuw model toe. Dit object zal door de ODK worden vastgelegd.</p>
+    <form [formGroup]="newModelForm" (ngSubmit)="addNewModel()">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Naam</mat-label>
+            <input matInput name="name" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>COCO sleutel</mat-label>
+            <mat-select name="COCOKey" formControlName="COCOKey">
+                <mat-option *ngFor="let key of cocokeys" [value]="key">{{ key }}</mat-option>
+            </mat-select>
+            <mat-hint>Bijbehorende sleutel (key) voor het object in de COCO dataset.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Beschrijving</mat-label>
+            <input matInput name="description" formControlName="description">
+        </mat-form-field>
+
+        <p><mat-slide-toggle name="enabled" formControlName="enabled">Actief</mat-slide-toggle></p>
+
+        <p><button mat-raised-button color="primary">Model aanmaken</button></p>
+    </form>
+</div>

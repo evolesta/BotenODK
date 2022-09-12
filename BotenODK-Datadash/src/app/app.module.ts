@@ -18,6 +18,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DashboardComponent } from './secure/dashboard/dashboard.component';
 import { AheaderComponent } from './secure/aheader/aheader.component';
@@ -25,6 +28,11 @@ import { AfooterComponent } from './secure/afooter/afooter.component';
 import { LogoutComponent } from './logout/logout.component';
 import { UsermanagementComponent } from './secure/usermanagement/usermanagement.component';
 import { AddUserComponent } from './secure/usermanagement/add-user/add-user.component';
+import { DeleteUserComponent } from './secure/usermanagement/delete-user/delete-user.component';
+import { DatamodelsComponent } from './secure/datamodels/datamodels.component';
+import { NewModelComponent } from './secure/datamodels/new-model/new-model.component';
+import { EditModelComponent } from './secure/datamodels/edit-model/edit-model.component';
+import { DeleteModelComponent } from './secure/datamodels/delete-model/delete-model.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +43,12 @@ import { AddUserComponent } from './secure/usermanagement/add-user/add-user.comp
     AfooterComponent,
     LogoutComponent,
     UsermanagementComponent,
-    AddUserComponent
+    AddUserComponent,
+    DeleteUserComponent,
+    DatamodelsComponent,
+    NewModelComponent,
+    EditModelComponent,
+    DeleteModelComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +65,10 @@ import { AddUserComponent } from './secure/usermanagement/add-user/add-user.comp
     MatIconModule,
     MatTableModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true }
