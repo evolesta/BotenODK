@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BotenODK_API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -31,6 +31,7 @@ namespace BotenODK_API.Controllers
                             LastName = u.LastName,
                             Email = u.Email,
                             Username = u.Username,
+                            Role = u.Role,
                         };
             return await Users.ToListAsync();
         }
@@ -47,6 +48,7 @@ namespace BotenODK_API.Controllers
                     LastName=u.LastName,
                     Email=u.Email,
                     Username=u.Username,
+                    Role=u.Role,
                 }).SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -98,6 +100,7 @@ namespace BotenODK_API.Controllers
         public async Task<ActionResult<User>> PostUser(User user)
         {
             // hash password from user
+            user.Password = RandomString();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
             user.Password = hashedPassword;
 
@@ -111,6 +114,7 @@ namespace BotenODK_API.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 Username = user.Username,
+                Role = user.Role,
             };
 
             return CreatedAtAction("GetUser", new { id = user.Id }, dto);
@@ -135,6 +139,22 @@ namespace BotenODK_API.Controllers
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        private string RandomString()
+        {
+            const string src = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            int length = 12;
+            var rnd = new Random();
+            var result = "";
+
+            for (int i = 0; i < length; i++)
+            {
+                var c = src[rnd.Next(0, src.Length)];
+                result = result + c;
+            }
+
+            return result;
         }
     }
 }

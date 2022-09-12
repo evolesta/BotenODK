@@ -89,7 +89,7 @@ namespace BotenODK_API.Controllers
                         // check if checksum from token equals with the DB
                         if (tokenArray[1] == userData.checksum)
                             // generate a new token and response it to the requester
-                            return Ok(new { token = GenerateAccessToken(userData.Username) });
+                            return Ok(new { token = GenerateAccessToken(userData.Username, userData.Role) });
                         else
                             return BadRequest();
                     }
@@ -110,7 +110,7 @@ namespace BotenODK_API.Controllers
                     if (BCrypt.Net.BCrypt.Verify(authtoken.password, UserData.Password))
                     {
                         // password is valid - generate access token
-                        return Ok(new { token = GenerateAccessToken(authtoken.username) });
+                        return Ok(new { token = GenerateAccessToken(authtoken.username, UserData.Role) });
                     }
                     else
                         return BadRequest();
@@ -118,7 +118,7 @@ namespace BotenODK_API.Controllers
         }
 
         // used to generate a fresh new access jwt token
-        private string GenerateAccessToken(string username)
+        private string GenerateAccessToken(string username, string role)
         {
             var tokenkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var SignIn = new SigningCredentials(tokenkey, SecurityAlgorithms.HmacSha256);
@@ -127,7 +127,8 @@ namespace BotenODK_API.Controllers
                 _config["JWT:Audience"],
                 claims: new[]
                 {
-                        new Claim("Username", username)
+                        new Claim("Username", username),
+                        new Claim(ClaimTypes.Role, role),
                 },
                 expires: DateTime.Now.AddMinutes(Convert.ToDouble(_config["JWT:TokenExpiration"])),
                 signingCredentials: SignIn);
