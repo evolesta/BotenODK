@@ -1,7 +1,21 @@
 <app-aheader></app-aheader>
 
 <div class="container">
-    <h1>Dashboard - Welkom</h1>
+    <h1>Dashboard</h1>
+
+    <div>
+        <h2>Aantallen per dag <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
+        <div>
+          <div style="display: block">
+            <canvas baseChart
+              [data]="barChartData"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [type]="barChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
 </div>
 
 <app-afooter></app-afooter>
