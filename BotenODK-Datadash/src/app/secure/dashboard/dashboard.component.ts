@@ -4,6 +4,7 @@ import { HttpServiceService } from 'src/app/http-service.service';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,51 +31,61 @@ export class DashboardComponent implements OnInit {
   public barChartPlugins = [ DataLabelsPlugin ];
   public barChartData: ChartData<'bar'> = {
     labels: [],
-    datasets: []
+    datasets: [{ data: [], label: 'Telling'}]
   }
+
+  public firstDayWeek: string = '';
+  public lastDayWeek: string = '';
+  private amountWeeks: number = 0;
 
   constructor(private http: HttpServiceService) { }
 
   ngOnInit(): void {
-    this.getDatas();
-    //this.transformAmountEachDay();
+    this.prepareDataWeek();
   }
 
-  getDatas(): void {
-    this.http.get("/DetectedDatas").subscribe(resp => {
-      this.detectedDatas = resp.body;
-      const amountOfDatas = Object.keys(this.detectedDatas).length;
+  prepareDataWeek() {
+    this.firstDayWeek = this.getStartOfWeek();
+    this.lastDayWeek = this.getEndOfWeek();
 
-      for (let i = 0; i < amountOfDatas; i++)
-      {
-        const date = new Date(this.detectedDatas[i].timestamp);
-        const datepipe = new DatePipe('en-US');
-        this.detectedDatas[i].timestamp = datepipe.transform(date, "dd-MM-YYYY");
-      }
-      console.log(this.detectedDatas)
+    this.barChartData.labels = [];
+    this.barChartData.datasets[0].data = [];
+
+    // add the days of the week to the labels of the chart
+    for (let i = 0; i < 7; i++) {
+      const datum = new Date(this.firstDayWeek);
+      datum.setDate(datum.getDate() + i);
+
+      this.barChartData.labels?.push(datum.toLocaleDateString());
+    }
+
+    this.http.get("/DetectedDatas?startDate=" + this.firstDayWeek + "&endDate=" + this.lastDayWeek).subscribe(resp => {
+      console.log(resp.body);
+      this.chart?.update();
     });
   }
 
-  transformAmountEachDay(): void {
-    const amountOfDatas = Object.keys(this.detectedDatas).length;
-    let indexDays: number = 0;
-    let addedDates: {[key: string]: string} = {};
+  getStartOfWeek(): string {
+    const today = new Date(); // todays date
 
-    // iterate trough dataset from database
-    for (let i = 0; i < amountOfDatas; i++) {
+    const firstDay = new Date(today.setDate(today.getDate() - today.getDay() + 1 + (this.amountWeeks * 7)));
+    return firstDay.toLocaleDateString('en-US');
+  }
 
-      // check if current date already has been processed and exists in the array
-      if (!addedDates.(this.detectedDatas[i].timestamp)) {
-        // date does not exist - add to dataset
-        this.barChartData.labels?.push(this.detectedDatas[i].timestamp);
-        this.barChartData.datasets[0].data.push(1);
+  getEndOfWeek(): string {
+    const today = new Date(); // todays date
 
-        // increment temp data
-        addedDates.push(this.detectedDatas[i].timestamp);
-      }
-      else {
-        // date has already been added to the chart - increment number
-      }
-    }
+    const lastDay = new Date(today.setDate(today.getDate() - today.getDay() + 7 + (this.amountWeeks * 7)));
+    return lastDay.toLocaleDateString('en-US');
+  }
+
+  incrementAmountWeeks() {
+    this.amountWeeks++;
+    this.prepareDataWeek();
+  }
+
+  decrementAmountWeeks() {
+    this.amountWeeks--;
+    this.prepareDataWeek();
   }
 }

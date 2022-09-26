@@ -22,6 +22,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DashboardComponent } from './secure/dashboard/dashboard.component';
 import { AheaderComponent } from './secure/aheader/aheader.component';
@@ -34,6 +36,7 @@ import { DatamodelsComponent } from './secure/datamodels/datamodels.component';
 import { NewModelComponent } from './secure/datamodels/new-model/new-model.component';
 import { EditModelComponent } from './secure/datamodels/edit-model/edit-model.component';
 import { DeleteModelComponent } from './secure/datamodels/delete-model/delete-model.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -71,6 +74,9 @@ import { DeleteModelComponent } from './secure/datamodels/delete-model/delete-mo
     MatSlideToggleModule,
     MatTooltipModule,
     NgChartsModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true }

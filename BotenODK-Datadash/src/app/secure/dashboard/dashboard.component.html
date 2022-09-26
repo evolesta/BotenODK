@@ -4,17 +4,28 @@
     <h1>Dashboard</h1>
 
     <div>
-        <h2>Aantallen per dag <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
-        <div>
-          <div style="display: block">
-            <canvas baseChart
-              [data]="barChartData"
-              [options]="barChartOptions"
-              [plugins]="barChartPlugins"
-              [type]="barChartType">
-            </canvas>
-          </div>
-        </div>
+        <h2>Aantallen <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
+        
+        <mat-tab-group>
+          <mat-tab label="Week">
+            <p><button mat-button (click)="decrementAmountWeeks()"><mat-icon fontIcon="arrow_back_ios"></mat-icon></button>
+            {{ firstDayWeek }} - {{ lastDayWeek }}
+            <button mat-button (click)="incrementAmountWeeks()"><mat-icon fontIcon="arrow_forward_ios"></mat-icon></button></p>
+            
+            <div>
+              <div style="display: block">
+                <canvas baseChart
+                  [data]="barChartData"
+                  [options]="barChartOptions"
+                  [plugins]="barChartPlugins"
+                  [type]="barChartType">
+                </canvas>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Maand"> Content 2 </mat-tab>
+          <mat-tab label="Jaar"> Content 3 </mat-tab>
+        </mat-tab-group>
       </div>
 </div>
 
