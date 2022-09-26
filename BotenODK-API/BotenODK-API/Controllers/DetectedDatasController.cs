@@ -20,10 +20,25 @@ namespace BotenODK_API.Controllers
         }
 
         // GET: api/DetectedDatas
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startDate">Please supply a start date (MM/dd/yyyy) if you desire to receive a dataset between a date range</param>
+        /// <param name="endDate">Please supply a end date date (MM/dd/yyyy) if you desire to receive a dataset between a date range</param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DetectedData>>> GetDetectedData()
+        public async Task<ActionResult<IEnumerable<DetectedData>>> GetDetectedData(string startDate, string endDate)
         {
-            return await _context.DetectedData.ToListAsync();
+            if(string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(endDate))           
+                return await _context.DetectedData.ToListAsync();
+
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+
+            if (start > end)
+                return BadRequest();
+
+            return await _context.DetectedData.Where(x => x.Timestamp >= start && x.Timestamp <= end).ToListAsync();
         }
 
         // GET: api/DetectedDatas/5
