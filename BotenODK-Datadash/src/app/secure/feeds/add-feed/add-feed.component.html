@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Nieuwe feed toevoegen</h1>
+<div mat-dialog-content>
+    <p>Voeg een nieuwe feed toe die uitgelezen moet worden voor object herkenning.</p>
+
+    <form [formGroup]="newFeedForm" (ngSubmit)="submitNewFeed()">
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>Naam</mat-label>
+            <input matInput name="name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>URL</mat-label>
+            <input matInput name="url" formControlName="url">
+            <mat-hint>Geef de volledige URL (RTSP) van de camera (bijv. rtsp://192.168.0.133:5668)</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>Beschrijving</mat-label>
+            <input matInput name="description" formControlName="description">
+        </mat-form-field>
+        <p><mat-slide-toggle checked formControlName="enabled">Actief</mat-slide-toggle></p>
+        <button mat-raised-button>Feed toevoegen</button>
+    </form>
+</div>

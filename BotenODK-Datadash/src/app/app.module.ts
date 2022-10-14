@@ -37,6 +37,10 @@ import { NewModelComponent } from './secure/datamodels/new-model/new-model.compo
 import { EditModelComponent } from './secure/datamodels/edit-model/edit-model.component';
 import { DeleteModelComponent } from './secure/datamodels/delete-model/delete-model.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FeedsComponent } from './secure/feeds/feeds.component';
+import { AddFeedComponent } from './secure/feeds/add-feed/add-feed.component';
+import { EditFeedComponent } from './secure/feeds/edit-feed/edit-feed.component';
+import { DeleteFeedComponent } from './secure/feeds/delete-feed/delete-feed.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     DatamodelsComponent,
     NewModelComponent,
     EditModelComponent,
-    DeleteModelComponent
+    DeleteModelComponent,
+    FeedsComponent,
+    AddFeedComponent,
+    EditFeedComponent,
+    DeleteFeedComponent
   ],
   imports: [
     BrowserModule,

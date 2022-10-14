@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Feed bewerken</h1>
+<div mat-dialog-content>
+    <p>Bewerk een feed die uitgelezen moet worden voor object herkenning.</p>
+
+    <form [formGroup]="editFeedForm" (ngSubmit)="submitFeed()">
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>Naam</mat-label>
+            <input matInput name="name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>URL</mat-label>
+            <input matInput name="url" formControlName="url">
+            <mat-hint>Geef de volledige URL (RTSP) van de camera (bijv. rtsp://192.168.0.133:5668)</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form">
+            <mat-label>Beschrijving</mat-label>
+            <input matInput name="description" formControlName="description">
+        </mat-form-field>
+        <p><mat-slide-toggle checked formControlName="enabled">Actief</mat-slide-toggle></p>
+        <button mat-raised-button>Feed wijzigen</button>
+    </form>
+</div>

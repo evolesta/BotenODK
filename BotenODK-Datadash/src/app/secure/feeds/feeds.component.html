@@ -1,0 +1,45 @@
+<app-aheader></app-aheader>
+
+<div class="container">
+    <h1>Feeds <mat-icon fontIcon="info" matTooltip="Beheer de camera livefeeds die moeten worden uitgelezen."></mat-icon></h1>
+
+    <p><button mat-raised-button color="primary" (click)="addFeedDialog()">Nieuwe feed toevoegen</button></p>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Naam</th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Beschrijving</th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+        </ng-container>
+        <ng-container matColumnDef="enabled">
+            <th mat-header-cell *matHeaderCellDef>Actief</th>
+            <td mat-cell *matCellDef="let element"> <mat-slide-toggle [checked]="element.enabled" (toggleChange)="invertEnabled(element)"></mat-slide-toggle> </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" class="mat-column-options">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editFeedDialog(element.id)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Bewerken</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteFeedDialog(element.id)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Verwijderen</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+<app-afooter></app-afooter>

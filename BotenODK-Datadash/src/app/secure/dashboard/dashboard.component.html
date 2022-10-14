@@ -6,10 +6,13 @@
     <div>
         <h2>Aantallen <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
 
-        <mat-button-toggle-group name="dashboardView" aria-label="Weergave voor het dashboard">
-          <mat-button-toggle value="week" (change)="changeView($event.value)">Week</mat-button-toggle>
-          <mat-button-toggle value="year" (change)="changeView($event.value)">Jaar</mat-button-toggle>
-        </mat-button-toggle-group>
+        <p>
+          <mat-button-toggle-group name="dashboardView" aria-label="Weergave voor het dashboard">
+            <mat-button-toggle value="week" (change)="changeView($event.value)">Week</mat-button-toggle>
+            <mat-button-toggle value="year" (change)="changeView($event.value)">Jaar</mat-button-toggle>
+          </mat-button-toggle-group>&nbsp;
+          <button mat-button (click)="resetWeekYear()">Huidige periode</button>
+        </p>
         
         <div [ngSwitch]="selectedView">
           <p *ngSwitchCase="'week'"><button mat-button (click)="decrementAmountWeeks()"><mat-icon fontIcon="arrow_back_ios"></mat-icon></button>

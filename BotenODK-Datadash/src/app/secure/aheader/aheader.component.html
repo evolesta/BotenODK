@@ -2,16 +2,19 @@
     <mat-toolbar color="primary">
       <span>Datadash - BotenODK</span>
       <span class="example-spacer"></span>
-      <button routerLink="/dashboard" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <button routerLink="/dashboard" mat-icon-button matTooltip="Dashboard met data">
         <mat-icon>insert_chart</mat-icon>
       </button>
-      <button routerLink="/datamodels" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <button routerLink="/datamodels" mat-icon-button matTooltip="Beheer te detecteren objecten">
         <mat-icon>model_training</mat-icon>
       </button>
-      <button routerLink="/usermanagement" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <button routerLink="/feeds" mat-icon-button matTooltip="Beheer uit te lezen camera feeds">
+        <mat-icon>videocam</mat-icon>
+      </button>
+      <button routerLink="/usermanagement" mat-icon-button matTooltip="Usermanagement">
         <mat-icon>groups</mat-icon>
       </button>
-      <button routerLink="/logout" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <button routerLink="/logout" mat-icon-button matTooltip="Uitloggen">
         <mat-icon>logout</mat-icon>
       </button>
     </mat-toolbar>

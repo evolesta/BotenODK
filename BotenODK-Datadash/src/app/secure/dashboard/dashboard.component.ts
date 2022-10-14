@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
     responsive: true,
     scales: {
       x: {},
-      y: { min: 10 }
+      y: {}
     },
     plugins: {
       legend: { display: true },
@@ -66,6 +66,12 @@ export class DashboardComponent implements OnInit {
 
   changeView(view: string): void {
     this.selectedView = view; // update view
+    this.prepareSelectedView();
+  }
+
+  resetWeekYear(): void {
+    this.amountWeeks = 0;
+    this.amountYears = 0;
     this.prepareSelectedView();
   }
 
