@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Gebruiker toevoegen</h1>
+
+<div mat-dialog-content>
+
+  <p>Voeg een nieuwe gebruiker toe aan DataDash. De gebruiker ontvangt na het aanmaken een e-mail met instructies.</p>
+    <form [formGroup]="adduserForm" (ngSubmit)="addUser()">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Voornaam</mat-label>
+            <input matInput name="firstName" formControlName="firstName">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Achternaam</mat-label>
+            <input matInput name="lastName" formControlName="lastName">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>E-mailadres</mat-label>
+            <input matInput name="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Gebruikersnaam</mat-label>
+            <input matInput name="username" formControlName="username">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Rol</mat-label>
+            <mat-select name="role" formControlName="role">
+                <mat-option value="User">Gebruiker</mat-option>
+                <mat-option value="Administrator">Beheerder</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button>Gebruiker aanmaken</button>
+    </form>
+</div>

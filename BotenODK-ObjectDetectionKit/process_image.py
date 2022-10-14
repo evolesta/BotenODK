@@ -11,7 +11,7 @@ from time import time, sleep
 def GetFramesFromStream():
     # get all feeds to process from the API
     try:
-        response = requests.get(auth.config["APIURL"] + "/Livefeeds", headers=headers, verify=False)
+        response = requests.get(auth.config["APIURL"] + "/Livefeeds", headers=headers)
     except HTTPError as err:
         raise("Error: " + err)
 
@@ -40,7 +40,7 @@ def GetFramesFromStream():
                     "feed": feed["id"]
                 }
                 try:
-                    requests.post(auth.config["APIURL"] + "/FeedQueues", headers=headers, json=body, verify=False)
+                    requests.post(auth.config["APIURL"] + "/FeedQueues", headers=headers, json=body)
                 except HTTPError as err:
                     raise("HTTP error: " + err)
 
@@ -48,7 +48,7 @@ def ProcessImage(filepath, id, feedId, dataModels):
     # change queue item into InProgress
     print("Process ODK to frame " + id)
     try:
-        requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers, verify=False)
+        requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers)
     except HTTPError as err:
         print("HTTP Error: " + err)
         exit()
@@ -119,7 +119,7 @@ def ProcessImage(filepath, id, feedId, dataModels):
                             "dataModelId": dataModel["dataModelId"],
                             "feedId": feedId
                         }
-                        requests.post(auth.config["APIURL"] + "/DetectedDatas", headers=headers, json=body, verify=False)
+                        requests.post(auth.config["APIURL"] + "/DetectedDatas", headers=headers, json=body)
                     except HTTPError as err:
                         print("Error: " + err)
 
@@ -130,7 +130,7 @@ def ProcessImage(filepath, id, feedId, dataModels):
 
     # set queue item to successful
     try:
-        requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers, verify=False)
+        requests.post(auth.config["APIURL"] + "/FeedQueues/NextPhase/" + id, headers=headers)
     except HTTPError as err:
         print("Error: " + err)
 
@@ -143,8 +143,8 @@ def Process():
 
     # get a list of new queue items from API to process
     try:
-        queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers, verify=False)
-        objectsResponse = requests.get(auth.config["APIURL"] + "/DataModels", headers=headers, verify=False)
+        queueitemsResponse = requests.get(auth.config["APIURL"] + "/FeedQueues/GetNewQueueItems?limit=" + str(auth.config["PROCESS_LIMIT"]), headers=headers)
+        objectsResponse = requests.get(auth.config["APIURL"] + "/DataModels", headers=headers)
 
     except HTTPError as err:
         raise("HTTP Error: " + err)

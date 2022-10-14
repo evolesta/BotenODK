@@ -25,7 +25,7 @@ class APIAuthenticate:
                 "username": username,
                 "password": password
             }
-            authRequest = requests.post(self.config["APIURL"] + "/token/authorize", json=body, verify=False)
+            authRequest = requests.post(self.config["APIURL"] + "/token/authorize", json=body)
 
             if not authRequest.status_code == 200:
                 print("Authentication error - please submit valid credentials")
@@ -67,7 +67,7 @@ class APIAuthenticate:
             "grant_type": "auth_token",
             "authtoken": self.config["AUTHTOKEN"]
         }
-        accTokenRequest = requests.post(self.config["APIURL"] + "/token", json=body, verify=False)
+        accTokenRequest = requests.post(self.config["APIURL"] + "/token", json=body)
 
         if not accTokenRequest.status_code == 200:
             print(accTokenRequest.content)

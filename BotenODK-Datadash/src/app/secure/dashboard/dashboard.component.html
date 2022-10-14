@@ -1,0 +1,40 @@
+<app-aheader></app-aheader>
+
+<div class="container">
+    <h1>Dashboard</h1>
+
+    <div>
+        <h2>Aantallen <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
+
+        <p>
+          <mat-button-toggle-group name="dashboardView" aria-label="Weergave voor het dashboard">
+            <mat-button-toggle value="week" (change)="changeView($event.value)">Week</mat-button-toggle>
+            <mat-button-toggle value="year" (change)="changeView($event.value)">Jaar</mat-button-toggle>
+          </mat-button-toggle-group>&nbsp;
+          <button mat-button (click)="resetWeekYear()">Huidige periode</button>
+        </p>
+        
+        <div [ngSwitch]="selectedView">
+          <p *ngSwitchCase="'week'"><button mat-button (click)="decrementAmountWeeks()"><mat-icon fontIcon="arrow_back_ios"></mat-icon></button>
+          {{ firstDayWeek }} - {{ lastDayWeek }}
+          <button mat-button (click)="incrementAmountWeeks()"><mat-icon fontIcon="arrow_forward_ios"></mat-icon></button></p>
+
+          <p *ngSwitchCase="'year'"><button mat-button (click)="decrementYear()"><mat-icon fontIcon="arrow_back_ios"></mat-icon></button>
+            {{ firstYearDay }} - {{ lastYearDay }}
+            <button mat-button (click)="incrementYear()"><mat-icon fontIcon="arrow_forward_ios"></mat-icon></button></p>
+        </div>
+          
+          <div>
+            <div style="display: block">
+              <canvas baseChart
+                [data]="barChartData"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [type]="barChartType">
+              </canvas>
+            </div>
+          </div>
+      </div>
+</div>
+
+<app-afooter></app-afooter>
