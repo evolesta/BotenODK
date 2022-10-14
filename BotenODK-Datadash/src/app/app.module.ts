@@ -22,7 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatTabsModule} from '@angular/material/tabs';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DashboardComponent } from './secure/dashboard/dashboard.component';
@@ -74,9 +74,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSlideToggleModule,
     MatTooltipModule,
     NgChartsModule,
-    MatTabsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatButtonToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorInterceptor, multi: true }
