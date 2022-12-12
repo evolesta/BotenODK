@@ -41,6 +41,7 @@ import { FeedsComponent } from './secure/feeds/feeds.component';
 import { AddFeedComponent } from './secure/feeds/add-feed/add-feed.component';
 import { EditFeedComponent } from './secure/feeds/edit-feed/edit-feed.component';
 import { DeleteFeedComponent } from './secure/feeds/delete-feed/delete-feed.component';
+import { ExampleChartComponent } from './charts/example-chart/example-chart.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { DeleteFeedComponent } from './secure/feeds/delete-feed/delete-feed.comp
     FeedsComponent,
     AddFeedComponent,
     EditFeedComponent,
-    DeleteFeedComponent
+    DeleteFeedComponent,
+    ExampleChartComponent,
   ],
   imports: [
     BrowserModule,
