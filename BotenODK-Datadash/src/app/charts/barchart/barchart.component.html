@@ -1,0 +1,5 @@
+<svg width="100%" height="500">
+    <g *ngFor="let step of yAxis; index as i">
+        <text [attr.x]="10" [attr.y]="(i+1) * (500/10)">{{ step }}</text>
+    </g>
+</svg>
