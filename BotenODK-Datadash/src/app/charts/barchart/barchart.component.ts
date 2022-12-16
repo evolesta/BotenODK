@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { chartData, IBaseChart } from '../basechart';
 
 @Component({
@@ -6,19 +6,34 @@ import { chartData, IBaseChart } from '../basechart';
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.css']
 })
-export class BarchartComponent implements IBaseChart {
+export class BarchartComponent implements IBaseChart, OnInit {
 
-  private chartData: chartData;
+  @Input('chartData') chartData: chartData;
+  @ViewChild('barChart') barChart: ElementRef;
   public yAxis: number[] = [];
+  public yAxisSteps: number;
+  public xAxisSteps: number;
+  public chartWidth: number;
 
   constructor() { }
+
+  ngOnInit(): void {
+    this.calculateYaxis();
+    this.calculateXaxis();
+  }
+
+  ngAfterViewInit(): void {
+    const chartElement = this.barChart.nativeElement;
+    this.chartWidth = chartElement.offsetWidth;
+    console.log(this.chartWidth);
+  }
 
   setChartdata(chartData: chartData): void {
     this.chartData = chartData;
   }
 
   drawChart(): void {
-    this.calculateYaxis();
+    this.ngOnInit();
   }
 
   calculateYaxis(): void {
@@ -47,10 +62,12 @@ export class BarchartComponent implements IBaseChart {
       this.yAxis[i] = currentStep;
       currentStep += yStepSize;
     }
-    console.log(this.yAxis)
+    
+    this.yAxis.reverse(); // draai de getallen in de array om
+    this.yAxisSteps = this.chartData.options.yAmountSteps;
   }
 
   calculateXaxis(): void {
-    throw new Error('Method not implemented.');
+    this.xAxisSteps = this.chartData.labels.length;
   }
 }

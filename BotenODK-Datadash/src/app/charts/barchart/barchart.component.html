@@ -1,5 +1,16 @@
-<svg width="100%" height="500">
+<svg width="100%" height="550" #barChart>
+    <!-- teken de stappen op de y-as met een loop -->
     <g *ngFor="let step of yAxis; index as i">
-        <text [attr.x]="10" [attr.y]="(i+1) * (500/10)">{{ step }}</text>
+        <text [attr.x]="20" [attr.y]="(i + 1) * (500 / chartData.options.yAmountSteps)">{{ step }}</text>
+        <line [attr.x1]="40" [attr.x2]="'95%'" [attr.y1]="(i + 1) * (500 / yAxisSteps)" [attr.y2]="(i + 1) * (500 / chartData.options.yAmountSteps)" class="chart-lines"></line>
+    </g>
+
+    <!-- Teken de lijnen voor de assen van de grafiek -->
+    <line x1="50" x2="50" y1="35" y2="500" stroke="gray"></line>
+    <line x1="50" x2="95%" y1="500" y2="500" stroke="gray"></line>
+
+    <!-- Teken de stappen (labels) uit op de x-as met een loop -->
+    <g *ngFor="let label of chartData.labels; index as i">
+        <text [attr.x]="" [attr.y]="530">{{ label }}</text>
     </g>
 </svg>

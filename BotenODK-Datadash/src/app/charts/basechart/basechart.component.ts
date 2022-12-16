@@ -28,7 +28,8 @@ export class BasechartComponent implements OnInit {
   ngAfterViewInit() {
     switch (this.chartData.chartType) {
       case 'bar':
-        this.chart.createComponent(BarchartComponent);
+        //this.chart.createComponent(BarchartComponent);
+
         break;
     }
 
