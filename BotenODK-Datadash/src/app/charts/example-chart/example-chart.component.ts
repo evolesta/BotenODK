@@ -17,7 +17,24 @@ export class ExampleChartComponent {
     }], 
     chartType: 'bar',
     options: {
-      yAmountSteps: 10
+      yAmountSteps: 10,
+      height: 600
+    }
+  }
+
+  public chartData2: chartData = {
+    labels: ['Broccoli', 'Bloemkool', 'Aardappelen', 'Boontjes', 'Prei', 'Paprika', 'Uien'],
+    datasets: [{
+      data: [114, 13, 8, 74, 50, 11, 99],
+      label: 'Groenten'
+    },
+    {
+      data: [70, 111, 39, 44, 95, 77, 101],
+      label: 'Groenten 2'
+    }], 
+    chartType: 'bar',
+    options: {
+      yAmountSteps: 15
     }
   }
 

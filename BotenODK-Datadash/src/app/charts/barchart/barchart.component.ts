@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { chartData, IBaseChart } from '../basechart';
 
 @Component({
@@ -9,11 +9,20 @@ import { chartData, IBaseChart } from '../basechart';
 export class BarchartComponent implements IBaseChart, OnInit {
 
   @Input('chartData') chartData: chartData;
-  @ViewChild('barChart') barChart: ElementRef;
+  // herbereken de breedte in pixels na een resize event
+  @HostListener("window:resize", ['$event'])
+  onResize() {
+    this.calculateWH();
+    this.calculateBarWidth();
+  }
+
   public yAxis: number[] = [];
   public yAxisSteps: number;
   public xAxisSteps: number;
-  public chartWidth: number;
+  public chartWidth: number = 0;
+  public chartHeight: number = 0;
+  public amountDatasets: number = 0;
+  public yMaxValue:number = 0;
 
   constructor() { }
 
@@ -23,9 +32,8 @@ export class BarchartComponent implements IBaseChart, OnInit {
   }
 
   ngAfterViewInit(): void {
-    const chartElement = this.barChart.nativeElement;
-    this.chartWidth = chartElement.offsetWidth;
-    console.log(this.chartWidth);
+    this.calculateWH();
+    this.calculateBarWidth();
   }
 
   setChartdata(chartData: chartData): void {
@@ -43,21 +51,18 @@ export class BarchartComponent implements IBaseChart, OnInit {
 
     for (let i = 0; i < this.chartData.datasets.length; i++) {
 
-      for (let x = 0; x < this.chartData.datasets[i].data.length; x++) {
-        var currentValue = this.chartData.datasets[i].data[x]; // ophalen huidige waarde
-        // check of de huidige waarde hoger is dan de hoogst gevonden waarde (tot nu toe)
-        if (currentValue > highestValue) {
-          highestValue = currentValue;
-        }
+      var datasetHighestValue = Math.max(...this.chartData.datasets[i].data);
+      if (datasetHighestValue > highestValue) {
+        highestValue = datasetHighestValue;
       }
     }
 
     // hoogst gevonden waarde afronden naar boven in tientallen en stapgrootte bepalen
-    const yMaxValue = Math.ceil(highestValue / 10) * 10;
-    const yStepSize = yMaxValue / this.chartData.options.yAmountSteps;
+    this.yMaxValue = Math.ceil(highestValue / 10) * 10;
+    const yStepSize = this.yMaxValue / this.chartData.options.yAmountSteps;
 
     // array voor de y-as genereren
-    var currentStep = 0;
+    var currentStep = yStepSize;
     for (let i = 0; i < this.chartData.options.yAmountSteps; i++) {
       this.yAxis[i] = currentStep;
       currentStep += yStepSize;
@@ -68,6 +73,18 @@ export class BarchartComponent implements IBaseChart, OnInit {
   }
 
   calculateXaxis(): void {
+    // geef het aantal stappen terug aan de hand van het aantal labels
     this.xAxisSteps = this.chartData.labels.length;
+  }
+
+  calculateWH(): void {
+    // geef de breedte in pixels terug voor de berekeningen. De breedte wordt dynamische bepaald dmv width=100%
+    this.chartWidth = document.getElementById('barChart').clientWidth;
+    this.chartHeight = document.getElementById('barChart').clientHeight;
+  }
+
+  calculateBarWidth(): void {
+    // bereken hoeveel staven er per label getekend moeten worden
+    this.amountDatasets = this.chartData.datasets.length; 
   }
 }

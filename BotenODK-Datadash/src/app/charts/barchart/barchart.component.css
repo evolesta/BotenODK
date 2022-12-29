@@ -1,8 +1,10 @@
-svg {
-    border: 1px solid gray;
-}
-
 .chart-lines {
     stroke: gray;
     stroke-width: 0.2px;
+}
+
+.bars {
+    fill: none;
+    stroke-width: 1px;
+    stroke: black;
 }

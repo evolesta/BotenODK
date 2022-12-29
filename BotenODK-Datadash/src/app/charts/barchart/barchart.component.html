@@ -1,16 +1,21 @@
-<svg width="100%" height="550" #barChart>
+<svg width="100%" [attr.height]="chartData.options.height" id="barChart">
     <!-- teken de stappen op de y-as met een loop -->
-    <g *ngFor="let step of yAxis; index as i">
-        <text [attr.x]="20" [attr.y]="(i + 1) * (500 / chartData.options.yAmountSteps)">{{ step }}</text>
-        <line [attr.x1]="40" [attr.x2]="'95%'" [attr.y1]="(i + 1) * (500 / yAxisSteps)" [attr.y2]="(i + 1) * (500 / chartData.options.yAmountSteps)" class="chart-lines"></line>
+    <g *ngFor="let step of yAxis">
+        <text [attr.x]="20" [attr.y]="(chartHeight + 25) - ((chartHeight / yMaxValue) * step)">{{ step }}</text>
+        <line [attr.x1]="40" [attr.x2]="chartWidth - 20" [attr.y1]="(chartHeight + 25) - ((chartHeight / yMaxValue) * step)" [attr.y2]="(chartHeight + 25) - ((chartHeight / yMaxValue) * step)" class="chart-lines"></line>
     </g>
-
-    <!-- Teken de lijnen voor de assen van de grafiek -->
-    <line x1="50" x2="50" y1="35" y2="500" stroke="gray"></line>
-    <line x1="50" x2="95%" y1="500" y2="500" stroke="gray"></line>
+    <line x1="50" x2="50" y1="25" [attr.y2]="chartHeight" stroke="gray"></line> <!--verticale y-as-->
 
     <!-- Teken de stappen (labels) uit op de x-as met een loop -->
     <g *ngFor="let label of chartData.labels; index as i">
-        <text [attr.x]="" [attr.y]="530">{{ label }}</text>
+        <text [attr.x]="i * (chartWidth / xAxisSteps) + 50" y="575">{{ label }}</text>
+        <line [attr.x1]="i * (chartWidth / xAxisSteps) + 50" [attr.x2]="i * (chartWidth / xAxisSteps) + 50" y1="35" y2="550" class="chart-lines"></line>
     </g>
-</svg>
+
+    <!-- Teken de daadwerkelijke data getallen per dataset in de grafiek als staaf -->
+    <g *ngFor="let dataset of chartData.datasets">
+        <g *ngFor="let data of dataset.data;">
+            <rect x="50" [attr.y]="(chartHeight + 25) - ((chartHeight / yMaxValue) * data)" width="100" height="25" class="bars"></rect>
+        </g>
+    </g>
+</svg>  
