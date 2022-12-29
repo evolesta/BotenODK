@@ -23,7 +23,7 @@ export class dataset {
 
 export class chartOptions {
     yAmountSteps?: number = 10;
-    height?: number = 600;
+    height: number = 600;
 }
 
 // Context klasse die aangeroepen wordt door het component

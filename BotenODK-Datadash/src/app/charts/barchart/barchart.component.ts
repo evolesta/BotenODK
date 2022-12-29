@@ -13,7 +13,6 @@ export class BarchartComponent implements IBaseChart, OnInit {
   @HostListener("window:resize", ['$event'])
   onResize() {
     this.calculateWH();
-    this.calculateBarWidth();
   }
 
   public yAxis: number[] = [];
@@ -22,7 +21,10 @@ export class BarchartComponent implements IBaseChart, OnInit {
   public chartWidth: number = 0;
   public chartHeight: number = 0;
   public amountDatasets: number = 0;
-  public yMaxValue:number = 0;
+  public yMaxValue: number = 0;
+  public distanceXaxisPixels: number = 0;
+  public barWidth: number = 0;
+  public colors: string[] = ['#E57373', '#6200EA', '#00B8D4', '#00BFA5', '#00C853'];
 
   constructor() { }
 
@@ -33,7 +35,7 @@ export class BarchartComponent implements IBaseChart, OnInit {
 
   ngAfterViewInit(): void {
     this.calculateWH();
-    this.calculateBarWidth();
+    this.prepareBarWidth();
   }
 
   setChartdata(chartData: chartData): void {
@@ -80,11 +82,26 @@ export class BarchartComponent implements IBaseChart, OnInit {
   calculateWH(): void {
     // geef de breedte in pixels terug voor de berekeningen. De breedte wordt dynamische bepaald dmv width=100%
     this.chartWidth = document.getElementById('barChart').clientWidth;
-    this.chartHeight = document.getElementById('barChart').clientHeight;
+    this.chartWidth = this.chartWidth - 50;
+    this.chartHeight = this.chartData.options.height;
   }
 
-  calculateBarWidth(): void {
+  prepareBarWidth(): void {
     // bereken hoeveel staven er per label getekend moeten worden
     this.amountDatasets = this.chartData.datasets.length; 
+    this.distanceXaxisPixels = this.chartWidth / this.xAxisSteps;
+    this.barWidth = (this.distanceXaxisPixels / this.amountDatasets) - 10;
+  }
+
+  calculateYPixels(step: number): number {
+    return this.chartHeight - ((this.chartHeight / this.yMaxValue) * step);
+  }
+
+  calculateXPixels(i: number): number {
+    return (i * this.distanceXaxisPixels) + 50;
+  }
+
+  calculateBarHeight(step: number): number {
+    return (this.chartHeight - 25) - this.calculateYPixels(step);
   }
 }

@@ -34,7 +34,8 @@ export class ExampleChartComponent {
     }], 
     chartType: 'bar',
     options: {
-      yAmountSteps: 15
+      yAmountSteps: 15,
+      height: 600
     }
   }
 
