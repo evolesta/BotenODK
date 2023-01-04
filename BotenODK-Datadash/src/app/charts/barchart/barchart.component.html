@@ -4,7 +4,7 @@
     <!-- Stappen (getallen voor de y-as) -->
     <g *ngFor="let step of yAxis">
         <text x="15" [attr.y]="calculateYPixels(step)" dy="10">{{ step }}</text>
-        <line x1="40" [attr.x2]="chartWidth - 20" [attr.y1]="calculateYPixels(step)" [attr.y2]="calculateYPixels(step)" class="chart-lines"></line>
+        <line x1="40" [attr.x2]="chartWidth" [attr.y1]="calculateYPixels(step)" [attr.y2]="calculateYPixels(step)" class="chart-lines"></line>
     </g>
 
     <!-- Teken de stappen (labels) op de x-as -->
@@ -21,7 +21,7 @@
 
             <!-- Teken de staven per dataset -->
             <rect [attr.x]="calculateXPixels(x) + (i * barWidth)" [attr.y]="calculateYPixels(data)" [attr.width]="barWidth" 
-            [attr.height]="calculateBarHeight(data)" [attr.fill]="colors[i]"></rect>
+            [attr.height]="calculateBarHeight(data)" [attr.fill]="colors[i]" class="bars"></rect>
         </g>
     </g>
 </svg>  

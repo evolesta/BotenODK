@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { BarchartComponent } from '../barchart/barchart.component';
 import { Chart, chartData } from '../basechart';
+import { LinechartComponent } from '../linechart/linechart.component';
 
 @Component({
   selector: 'chart',
@@ -18,21 +19,20 @@ export class BasechartComponent implements OnInit {
     switch (this.chartData.chartType) {
       // wanneer er sprake is van een bar chart (st)
       case 'bar':
-        const strategy = new Chart(new BarchartComponent);
-        strategy.setChartdata(this.chartData);
-        strategy.drawChart();
+        const barStrategy = new Chart(new BarchartComponent);
+        barStrategy.setChartdata(this.chartData);
+        barStrategy.drawChart();
+        break;
+      
+      case 'line':
+        const lineStrategy = new Chart(new LinechartComponent);
+        lineStrategy.setChartdata(this.chartData);
+        lineStrategy.drawChart();
         break;
     }
   }
 
   ngAfterViewInit() {
-    switch (this.chartData.chartType) {
-      case 'bar':
-        //this.chart.createComponent(BarchartComponent);
-
-        break;
-    }
-
     this.cdRef.detectChanges();
   }
 

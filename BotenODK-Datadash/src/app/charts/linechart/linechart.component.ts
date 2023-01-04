@@ -2,48 +2,44 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { chartData, IBaseChart } from '../basechart';
 
 @Component({
-  selector: 'app-barchart',
-  templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.css']
+  selector: 'app-linechart',
+  templateUrl: './linechart.component.html',
+  styleUrls: ['./linechart.component.css']
 })
-export class BarchartComponent implements IBaseChart, OnInit {
+export class LinechartComponent implements IBaseChart, OnInit {
 
   @Input('chartData') chartData: chartData;
-  // herbereken de breedte in pixels na een resize event
   @HostListener("window:resize", ['$event'])
   onResize() {
     this.calculateWH();
   }
-
+  public yMaxValue: number = 0;
   public yAxis: number[] = [];
-  public yAxisSteps: number;
-  public xAxisSteps: number;
+  public yAxisSteps: number = 0;
+  public xAxisSteps: number = 0;
   public chartWidth: number = 0;
   public chartHeight: number = 0;
   public amountDatasets: number = 0;
-  public yMaxValue: number = 0;
   public distanceXaxisPixels: number = 0;
-  public barWidth: number = 0;
-  public colors: string[] = ['#E57373', '#81BED9', '#00B8D4', '#00BFA5', '#00C853'];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.calculateYaxis();
     this.calculateXaxis();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void { 
     this.calculateWH();
-    this.prepareBarWidth();
+    this.prepareLinePoints();
+   }
+
+  drawChart(): void {
+    this.ngOnInit();
   }
 
   setChartdata(chartData: chartData): void {
     this.chartData = chartData;
-  }
-
-  drawChart(): void {
-    this.ngOnInit();
   }
 
   calculateYaxis(): void {
@@ -81,16 +77,15 @@ export class BarchartComponent implements IBaseChart, OnInit {
 
   calculateWH(): void {
     // geef de breedte in pixels terug voor de berekeningen. De breedte wordt dynamische bepaald dmv width=100%
-    this.chartWidth = document.getElementById('barChart').clientWidth;
+    this.chartWidth = document.getElementById('lineChart').clientWidth;
     this.chartWidth = this.chartWidth - 50;
     this.chartHeight = this.chartData.options.height;
   }
 
-  prepareBarWidth(): void {
+  prepareLinePoints(): void {
     // bereken hoeveel staven er per label getekend moeten worden
     this.amountDatasets = this.chartData.datasets.length; 
     this.distanceXaxisPixels = this.chartWidth / this.xAxisSteps;
-    this.barWidth = (this.distanceXaxisPixels / this.amountDatasets) - 10;
   }
 
   calculateYPixels(step: number): number {
@@ -104,4 +99,6 @@ export class BarchartComponent implements IBaseChart, OnInit {
   calculateBarHeight(step: number): number {
     return (this.chartHeight - 25) - this.calculateYPixels(step);
   }
+
 }
+ 

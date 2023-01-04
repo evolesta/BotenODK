@@ -1,0 +1,13 @@
+svg {
+    border: 1px dashed black;
+}
+
+.chart-lines {
+    stroke: gray;
+    stroke-width: 0.2px;
+}
+
+.line {
+    stroke: black;
+    stroke-width: 0.5px;
+}

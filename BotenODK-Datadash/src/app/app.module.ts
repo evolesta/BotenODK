@@ -44,6 +44,7 @@ import { DeleteFeedComponent } from './secure/feeds/delete-feed/delete-feed.comp
 import { ExampleChartComponent } from './charts/example-chart/example-chart.component';
 import { BasechartComponent } from './charts/basechart/basechart.component';
 import { BarchartComponent } from './charts/barchart/barchart.component';
+import { LinechartComponent } from './charts/linechart/linechart.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { BarchartComponent } from './charts/barchart/barchart.component';
     ExampleChartComponent,
     BasechartComponent,
     BarchartComponent,
+    LinechartComponent,
   ],
   imports: [
     BrowserModule,
