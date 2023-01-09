@@ -8,6 +8,13 @@ svg {
 }
 
 .line {
-    stroke: black;
-    stroke-width: 0.5px;
+    stroke-width: 1.5px;
+}
+
+.dialog {
+    position: absolute;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.658);
+    color: white;
+    padding: 10px;
 }

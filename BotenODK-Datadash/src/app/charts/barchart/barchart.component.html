@@ -21,7 +21,13 @@
 
             <!-- Teken de staven per dataset -->
             <rect [attr.x]="calculateXPixels(x) + (i * barWidth)" [attr.y]="calculateYPixels(data)" [attr.width]="barWidth" 
-            [attr.height]="calculateBarHeight(data)" [attr.fill]="colors[i]" class="bars"></rect>
+            [attr.height]="calculateBarHeight(data)" [attr.fill]="colors[i]" class="bars" 
+            (mouseenter)="showDialog($event, dataset, x)" (mouseleave)="hideDialog()"></rect>
         </g>
     </g>
 </svg>  
+
+<div *ngIf="showDialogFlag" class="dialog" [style.left]="(dialogX + 10) + 'px'" [style.top]="dialogY + 'px'">
+    <p><b>{{ currentDialogDataset.label }}</b><br/>
+    {{ currentDialogDataset.data[iteration] }}</p>
+</div>

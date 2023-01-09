@@ -12,6 +12,7 @@ export class LinechartComponent implements IBaseChart, OnInit {
   @HostListener("window:resize", ['$event'])
   onResize() {
     this.calculateWH();
+    window.location.reload();
   }
   public yMaxValue: number = 0;
   public yAxis: number[] = [];
@@ -21,6 +22,14 @@ export class LinechartComponent implements IBaseChart, OnInit {
   public chartHeight: number = 0;
   public amountDatasets: number = 0;
   public distanceXaxisPixels: number = 0;
+  public colors: string[] = ['#E57373', '#81BED9', '#00B8D4', '#00BFA5', '#00C853'];
+
+  // dialog public variables
+  public showDialogFlag: boolean;
+  public currentDialogDataset: any;
+  public iteration: number;
+  public dialogY: number = 0;
+  public dialogX: number = 0;
 
   constructor() {}
 
@@ -98,6 +107,18 @@ export class LinechartComponent implements IBaseChart, OnInit {
 
   calculateBarHeight(step: number): number {
     return (this.chartHeight - 25) - this.calculateYPixels(step);
+  }
+
+  showDialog(event: MouseEvent, data: object, iteration: number): void {
+    this.showDialogFlag = true;
+    this.iteration = iteration;
+    this.currentDialogDataset = data;
+    this.dialogX = event.clientX;
+    this.dialogY = event.clientY;
+  }
+
+  hideDialog(): void {
+    this.showDialogFlag = false;
   }
 
 }

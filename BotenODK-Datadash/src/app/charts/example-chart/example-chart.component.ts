@@ -25,14 +25,14 @@ export class ExampleChartComponent {
   public chartData2: chartData = {
     labels: ['Broccoli', 'Bloemkool', 'Aardappelen', 'Boontjes', 'Prei', 'Paprika', 'Uien'],
     datasets: [{
-      data: [114, 13, 8, 74, 50, 11, 99],
+      data: [114, 13, 2, 74, 50, 11, 99],
       label: 'Groenten'
     },
     {
       data: [70, 111, 39, 44, 95, 77, 101],
       label: 'Groenten 2'
     }], 
-    chartType: 'line',
+    chartType: 'bar',
     options: {
       yAmountSteps: 15,
       height: 600

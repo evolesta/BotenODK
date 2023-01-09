@@ -26,6 +26,13 @@ export class BarchartComponent implements IBaseChart, OnInit {
   public barWidth: number = 0;
   public colors: string[] = ['#E57373', '#81BED9', '#00B8D4', '#00BFA5', '#00C853'];
 
+  // dialog public variables
+  public showDialogFlag: boolean;
+  public currentDialogDataset: any;
+  public iteration: number;
+  public dialogY: number = 0;
+  public dialogX: number = 0;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -103,5 +110,17 @@ export class BarchartComponent implements IBaseChart, OnInit {
 
   calculateBarHeight(step: number): number {
     return (this.chartHeight - 25) - this.calculateYPixels(step);
+  }
+
+  showDialog(event: MouseEvent, dataset: object, iteration: number): void {
+    this.showDialogFlag = true;
+    this.currentDialogDataset = dataset;
+    this.iteration = iteration;
+    this.dialogX = event.clientX;
+    this.dialogY = event.clientY;
+  }
+
+  hideDialog(): void {
+    this.showDialogFlag = false;
   }
 }
