@@ -1,27 +1,27 @@
-<svg width="100%" [attr.height]="chartHeight" id="barChart">
+<svg width="100%" [attr.height]="baseChart.chartHeight" id="barChart">
     <!-- teken de stappen op de y-as met een loop -->
-    <line x1="50" x2="50" y1="0" [attr.y2]="chartHeight - 50" class="chart-lines"></line> <!-- lijn voor de y-as -->
+    <line x1="50" x2="50" y1="0" [attr.y2]="baseChart.chartHeight - 50" class="chart-lines"></line> <!-- lijn voor de y-as -->
     <!-- Stappen (getallen voor de y-as) -->
-    <g *ngFor="let step of yAxis">
-        <text x="15" [attr.y]="calculateYPixels(step)" dy="10">{{ step }}</text>
-        <line x1="40" [attr.x2]="chartWidth" [attr.y1]="calculateYPixels(step)" [attr.y2]="calculateYPixels(step)" class="chart-lines"></line>
+    <g *ngFor="let step of baseChart.yAxis">
+        <text x="15" [attr.y]="baseChart.calculateYPixels(step)" dy="10">{{ step }}</text>
+        <line x1="40" [attr.x2]="baseChart.chartWidth" [attr.y1]="baseChart.calculateYPixels(step)" [attr.y2]="baseChart.calculateYPixels(step)" class="chart-lines"></line>
     </g>
 
     <!-- Teken de stappen (labels) op de x-as -->
     <g *ngFor="let label of chartData.labels; index as i">
-        <line [attr.x1]="calculateXPixels(i)" [attr.x2]="calculateXPixels(i)" y1="0" [attr.y2]="chartHeight - 25" class="chart-lines"></line>
-        <text [attr.x]="calculateXPixels(i)" [attr.y]="chartHeight - 10">{{ label }}</text>
+        <line [attr.x1]="baseChart.calculateXPixels(i)" [attr.x2]="baseChart.calculateXPixels(i)" y1="0" [attr.y2]="baseChart.chartHeight - 25" class="chart-lines"></line>
+        <text [attr.x]="baseChart.calculateXPixels(i)" [attr.y]="baseChart.chartHeight - 10">{{ label }}</text>
     </g>
 
     <!-- Teken de staven voor de grafiek -->
     <g *ngFor="let dataset of chartData.datasets; index as i">
         <g *ngFor="let data of dataset.data; index as x">
             <!-- Teken het aantal (tekst) boven de staaf -->
-            <text [attr.x]="(calculateXPixels(x) + (i * barWidth) + 20)" [attr.y]="calculateYPixels(data) - 10">{{ data }}</text>
+            <text [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data) - 10">{{ data }}</text>
 
             <!-- Teken de staven per dataset -->
-            <rect [attr.x]="calculateXPixels(x) + (i * barWidth)" [attr.y]="calculateYPixels(data)" [attr.width]="barWidth" 
-            [attr.height]="calculateBarHeight(data)" [attr.fill]="colors[i]" class="bars" 
+            <rect [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data)" [attr.width]="baseChart.barWidth" 
+            [attr.height]="baseChart.calculateBarHeight(data)" [attr.fill]="baseChart.colors[i]" class="bars" 
             (mouseenter)="showDialog($event, dataset, x)" (mouseleave)="hideDialog()"></rect>
         </g>
     </g>

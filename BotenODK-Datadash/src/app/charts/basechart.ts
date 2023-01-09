@@ -3,8 +3,7 @@
 export interface IBaseChart {
     // definieer strategy functies
     setChartdata(chartData: chartData): void;
-    calculateYaxis(): void;
-    calculateXaxis(): void;
+    getBasechart(): void;
     drawChart(): void;
 }
 
@@ -41,8 +40,8 @@ export class Chart {
         this._strategy = strategy;
     }
 
-    public setChartdata(chartdata: chartData) {
-        this._strategy.setChartdata(chartdata);
+    public setChartdata(chartData: chartData) {
+        this._strategy.setChartdata(chartData);
     }
 
     // invoker om de strategy uit te voeren

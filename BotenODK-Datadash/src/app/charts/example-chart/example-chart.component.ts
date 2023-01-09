@@ -32,7 +32,7 @@ export class ExampleChartComponent {
       data: [70, 111, 39, 44, 95, 77, 101],
       label: 'Groenten 2'
     }], 
-    chartType: 'bar',
+    chartType: 'line',
     options: {
       yAmountSteps: 15,
       height: 600
