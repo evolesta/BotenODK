@@ -1,0 +1,20 @@
+svg {
+    border: 1px dashed black;
+}
+
+.chart-lines {
+    stroke: gray;
+    stroke-width: 0.2px;
+}
+
+.line {
+    stroke-width: 1.5px;
+}
+
+.dialog {
+    position: absolute;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.658);
+    color: white;
+    padding: 10px;
+}

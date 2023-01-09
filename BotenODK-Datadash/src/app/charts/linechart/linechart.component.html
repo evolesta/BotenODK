@@ -1,0 +1,32 @@
+<svg width="100%" [attr.height]="chartHeight" id="lineChart">
+    <!-- teken de y-as -->
+    <!-- Teken de getallen van de y-as en de bijbehorende lijnen -->
+    <g *ngFor="let step of yAxis">
+        <text x="15" [attr.y]="calculateYPixels(step)" dy="10">{{ step }}</text>
+        <line x1="40" [attr.x2]="chartWidth" [attr.y1]="calculateYPixels(step)" [attr.y2]="calculateYPixels(step)" class="chart-lines"></line>
+    </g>
+
+    <!-- Teken de labels van de x-as en de lijnen -->
+    <g *ngFor="let label of chartData.labels; index as i">
+        <line [attr.x1]="calculateXPixels(i)" [attr.x2]="calculateXPixels(i)" y1="0" [attr.y2]="chartHeight - 25" class="chart-lines"></line>
+        <text [attr.x]="calculateXPixels(i)" [attr.y]="chartHeight - 10">{{ label }}</text>
+    </g>
+
+    <!-- Teken de datapunten (cirkels) en lijnen tussen de datapunten -->
+    <g *ngFor="let dataset of chartData.datasets; index as i">
+        <g *ngFor="let data of dataset.data; index as x">
+            <!-- Teken de datapunten met cirkels -->
+            <circle [attr.cx]="calculateXPixels(x)" [attr.cy]="calculateYPixels(data)" r="4" (mouseenter)="showDialog($event, dataset, x)" 
+            (mouseleave)="hideDialog()" [style.fill]="colors[i]"></circle>
+
+            <!-- Teken de lijnen tussen de cirkels -->
+            <line [attr.x1]="calculateXPixels(x)" [attr.x2]="calculateXPixels(x + 1)" [attr.y1]="calculateYPixels(data)" 
+            [attr.y2]="calculateYPixels(dataset.data[x + 1])" class="line" [style.stroke]="colors[i]"></line>
+        </g>
+    </g>
+</svg>
+
+<div *ngIf="showDialogFlag" class="dialog" [style.left]="(dialogX + 10) + 'px'" [style.top]="dialogY + 'px'">
+    <p><b>{{ currentDialogDataset.label }}</b><br/>
+    {{ currentDialogDataset.data[iteration] }}</p>
+</div>

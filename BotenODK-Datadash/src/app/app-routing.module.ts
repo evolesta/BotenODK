@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExampleChartComponent } from './charts/example-chart/example-chart.component';
 import { GuardGuard } from './guard.guard';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'usermanagement', component: UsermanagementComponent, canActivate: [GuardGuard]},
   { path: 'datamodels', component: DatamodelsComponent, canActivate: [GuardGuard]},
   { path: 'feeds', component: FeedsComponent, canActivate: [GuardGuard]},
+  { path: 'testchart', component: ExampleChartComponent},
 ];
 
 @NgModule({

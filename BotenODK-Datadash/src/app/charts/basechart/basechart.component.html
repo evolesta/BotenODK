@@ -1,0 +1,4 @@
+<div class="chart">
+    <app-barchart *ngIf="chartData.chartType == 'bar'" [chartData]="chartData"></app-barchart>
+    <app-linechart *ngIf="chartData.chartType == 'line'" [chartData]="chartData"></app-linechart>
+</div>
