@@ -45,6 +45,7 @@ import { ExampleChartComponent } from './charts/example-chart/example-chart.comp
 import { BasechartComponent } from './charts/basechart/basechart.component';
 import { BarchartComponent } from './charts/barchart/barchart.component';
 import { LinechartComponent } from './charts/linechart/linechart.component';
+import { EmptychartComponent } from './charts/emptychart/emptychart.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { LinechartComponent } from './charts/linechart/linechart.component';
     BasechartComponent,
     BarchartComponent,
     LinechartComponent,
+    EmptychartComponent,
   ],
   imports: [
     BrowserModule,

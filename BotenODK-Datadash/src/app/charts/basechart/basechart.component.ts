@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { delay } from 'rxjs';
 import { BarchartComponent } from '../barchart/barchart.component';
 import { Chart, chartData } from '../basechart';
+import { EmptychartComponent } from '../emptychart/emptychart.component';
 import { LinechartComponent } from '../linechart/linechart.component';
 
 @Component({
@@ -9,31 +11,68 @@ import { LinechartComponent } from '../linechart/linechart.component';
   styleUrls: ['./basechart.component.css']
 })
 export class BasechartComponent implements OnInit {
-
-  @Input('chartData') chartData: chartData;
+  
+  _chartData: chartData;
+  @Input()
+  get chartData(): any { return this._chartData; }
+  set chartData(chartData: chartData) {
+    this._chartData = chartData;
+    this.setStrategy();
+  }
   @ViewChild('chart', {read: ViewContainerRef}) chart!: ViewContainerRef;
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    switch (this.chartData.chartType) {
-      // wanneer er sprake is van een bar chart (st)
-      case 'bar':
-        const barStrategy = new Chart(new BarchartComponent);
-        barStrategy.setChartdata(this.chartData);
-        barStrategy.drawChart();
-        break;
-      
-      case 'line':
-        const lineStrategy = new Chart(new LinechartComponent);
-        lineStrategy.setChartdata(this.chartData);
-        lineStrategy.drawChart();
-        break;
-    }
   }
 
   ngAfterViewInit() {
     this.cdRef.detectChanges();
+  }
+
+  setStrategy(): void {
+    // controleren of er data is om te presenteren
+    console.log(this.getHighestValueInDataset())
+
+    if (this.getHighestValueInDataset() == 0) {
+      // presenteer een emptychart (zonder data)
+      const emptyStrategy = new Chart(new EmptychartComponent);
+      this.chartData.empty = true;
+      emptyStrategy.setChartdata(this.chartData);
+      emptyStrategy.drawChart();
+    }
+    else {
+      this.chartData.empty = false;
+      switch (this.chartData.chartType) {
+        // wanneer er sprake is van een bar chart (st)
+        case 'bar':
+          const barStrategy = new Chart(new BarchartComponent);
+          barStrategy.setChartdata(this.chartData);
+          barStrategy.drawChart();
+          break;
+        
+        case 'line':
+          const lineStrategy = new Chart(new LinechartComponent);
+          lineStrategy.setChartdata(this.chartData);
+          lineStrategy.drawChart();
+          break;
+      }
+    }
+  }
+
+  getHighestValueInDataset(): number {
+    // zoek het hoogste getal in de data van de datasets
+    var highestValue = 0;
+
+    for (let i = 0; i < this.chartData.datasets.length; i++) {
+      var highestVal = Math.max(...this.chartData.datasets[i].data);
+
+      if (highestValue < highestVal) {
+        highestValue = highestVal;
+      }
+    }
+
+    return highestValue;
   }
 
 }
