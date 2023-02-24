@@ -12,7 +12,7 @@ export class ExampleChartComponent {
   public chartData: chartData = {
     labels: ['Appels', 'Peren', 'Druiven', 'Bananen'],
     datasets: [{
-      data: [12, 24, 8, 74],
+      data: [0, 0, 0, 0],
       label: 'Fruit'
     }], 
     chartType: 'line',
@@ -33,6 +33,16 @@ export class ExampleChartComponent {
       label: 'Groenten 2'
     }], 
     chartType: 'line',
+    options: {
+      yAmountSteps: 15,
+      height: 600
+    }
+  }
+
+  public chartData3: chartData = {
+    labels: [],
+    datasets: [], 
+    chartType: 'bar',
     options: {
       yAmountSteps: 15,
       height: 600

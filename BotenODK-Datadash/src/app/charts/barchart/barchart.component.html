@@ -17,10 +17,10 @@
     <g *ngFor="let dataset of chartData.datasets; index as i">
         <g *ngFor="let data of dataset.data; index as x">
             <!-- Teken het aantal (tekst) boven de staaf -->
-            <text [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data) - 10">{{ data }}</text>
+            <text *ngIf="data != 0" [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data) - 10">{{ data }}</text>
 
             <!-- Teken de staven per dataset -->
-            <rect [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data)" [attr.width]="baseChart.barWidth" 
+            <rect *ngIf="data != 0" [attr.x]="baseChart.calculateXPixels(x) + (i * baseChart.barWidth)" [attr.y]="baseChart.calculateYPixels(data)" [attr.width]="baseChart.barWidth" 
             [attr.height]="baseChart.calculateBarHeight(data)" [attr.fill]="baseChart.colors[i]" class="bars" 
             (mouseenter)="showDialog($event, dataset, x)" (mouseleave)="hideDialog()"></rect>
         </g>

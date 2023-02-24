@@ -13,6 +13,7 @@ export class chartData {
     datasets: dataset[];
     options?: chartOptions;
     chartType: string;
+    empty?: boolean;
 }
 
 export class dataset {

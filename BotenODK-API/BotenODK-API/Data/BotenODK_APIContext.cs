@@ -15,6 +15,22 @@ namespace BotenODK_API.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Test",
+                    LastName = "Gebruiker",
+                    Email = "info@veela.nl",
+                    Username = "test",
+                    Password = BCrypt.Net.BCrypt.HashPassword("TEST123"),
+                    Role = "Administrator"
+                }
+                );
+        }
+
         public DbSet<BotenODK_API.Models.User> User { get; set; }
 
         public DbSet<BotenODK_API.Models.FeedQueue> FeedQueue { get; set; }

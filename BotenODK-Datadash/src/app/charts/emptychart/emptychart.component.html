@@ -1,0 +1,8 @@
+<svg width="100%" [attr.height]="baseChart.chartHeight" id="emptyChart">
+    <!-- Teken de y-as -->
+    <line x1="50" x2="50" y1="0" [attr.y2]="baseChart.chartHeight - 50" class="chart-lines"></line>
+    <g *ngFor="let step of baseChart.yAxis">
+        <text x="15" [attr.y]="baseChart.calculateYPixels(step)" dy="10">{{ step }}</text>
+        <line x1="40" [attr.x2]="baseChart.chartWidth" [attr.y1]="baseChart.calculateYPixels(step)" [attr.y2]="baseChart.calculateYPixels(step)" class="chart-lines"></line>
+    </g>
+</svg>

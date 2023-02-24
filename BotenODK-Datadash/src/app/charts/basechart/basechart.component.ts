@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { delay } from 'rxjs';
 import { BarchartComponent } from '../barchart/barchart.component';
-import { Chart, chartData } from '../basechart';
+import { Chart, chartData, dataset } from '../basechart';
+import { EmptychartComponent } from '../emptychart/emptychart.component';
 import { LinechartComponent } from '../linechart/linechart.component';
 
 @Component({
@@ -9,31 +11,67 @@ import { LinechartComponent } from '../linechart/linechart.component';
   styleUrls: ['./basechart.component.css']
 })
 export class BasechartComponent implements OnInit {
-
+  
   @Input('chartData') chartData: chartData;
   @ViewChild('chart', {read: ViewContainerRef}) chart!: ViewContainerRef;
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    switch (this.chartData.chartType) {
-      // wanneer er sprake is van een bar chart (st)
-      case 'bar':
-        const barStrategy = new Chart(new BarchartComponent);
-        barStrategy.setChartdata(this.chartData);
-        barStrategy.drawChart();
-        break;
-      
-      case 'line':
-        const lineStrategy = new Chart(new LinechartComponent);
-        lineStrategy.setChartdata(this.chartData);
-        lineStrategy.drawChart();
-        break;
-    }
+    this.updateChart();
   }
 
   ngAfterViewInit() {
     this.cdRef.detectChanges();
+  }
+
+  updateChart(): void {
+    // controleren of er data is om te presenteren
+    const highestValue = this.getHighestValueInDataset();
+
+    if (highestValue === 0) {
+      // presenteer een emptychart (zonder data)
+      const emptyStrategy = new Chart(new EmptychartComponent);
+      this.chartData.empty = true;
+      emptyStrategy.setChartdata(this.chartData);
+      emptyStrategy.drawChart();
+    }
+    else {
+      this.chartData.empty = false;
+      switch (this.chartData.chartType) {
+        // wanneer er sprake is van een bar chart (st)
+        case 'bar':
+          const barStrategy = new Chart(new BarchartComponent);
+          barStrategy.setChartdata(this.chartData);
+          barStrategy.drawChart();
+          break;
+        
+        case 'line':
+          const lineStrategy = new Chart(new LinechartComponent);
+          lineStrategy.setChartdata(this.chartData);
+          lineStrategy.drawChart();
+          break;
+      }
+    }
+  }
+
+  getHighestValueInDataset(): number {
+    // zoek het hoogste getal in de data van de datasets
+    let highestValue = 0;
+
+    for (let i = 0; i < this.chartData.datasets.length; i++) {
+
+      for (let x = 0; x < this.chartData.datasets[i].data.length; x++) {
+
+        let currValue = this.chartData.datasets[i].data[x];
+        
+        if (currValue > highestValue) {
+          highestValue = currValue;
+        }
+      }
+    }
+    
+    return highestValue;
   }
 
 }

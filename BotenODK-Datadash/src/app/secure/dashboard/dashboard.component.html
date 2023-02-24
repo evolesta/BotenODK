@@ -5,8 +5,16 @@
 
     <div>
         <h2>Aantallen <mat-icon fontIcon="info" matTooltip="Deze grafiek toont het aantal ontdekte objecten per dag."></mat-icon></h2>
-
         
+        <p><button mat-button (click)="decrementAmountWeeks()"><</button>
+        <button mat-button (click)="resetAmountWeeks()">Vandaag</button>
+        <button mat-button (click)="incrementAmountWeeks()">></button></p>
+
+        <div class="startEnd">
+            <p>{{ firstWeekDay | date:'dd-MM-yyyy' }} - {{ lastWeekDay | date:'dd-MM-yyyy' }}</p>
+        </div>
+
+        <chart [chartData]="chartData"></chart>
     </div>
 </div>
 
