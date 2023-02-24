@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { chartData } from 'src/app/charts/basechart';
 import { BasechartComponent } from 'src/app/charts/basechart/basechart.component';
 import { HttpServiceService } from 'src/app/http-service.service';
@@ -20,17 +20,22 @@ export class DashboardComponent implements OnInit {
       data: [],
       label: 'Aantal'
     }],
-    chartType: 'bar',
+    chartType: 'line',
     options: {
       yAmountSteps: 10,
       height: 600
     }
   };
   
-  constructor(private http: HttpServiceService) { }
+  constructor(private http: HttpServiceService,
+    private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.prepareDataWeek();
+  }
+
+  ngAfterViewInit(): void {
+    this.cdRef.detectChanges();
   }
 
   prepareDataWeek(): void {
