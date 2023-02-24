@@ -10,6 +10,10 @@
         <button mat-button (click)="resetAmountWeeks()">Vandaag</button>
         <button mat-button (click)="incrementAmountWeeks()">></button></p>
 
+        <div class="startEnd">
+            <p>{{ firstWeekDay | date:'dd-MM-yyyy' }} - {{ lastWeekDay | date:'dd-MM-yyyy' }}</p>
+        </div>
+
         <chart [chartData]="chartData"></chart>
     </div>
 </div>

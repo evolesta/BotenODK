@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { chartData } from 'src/app/charts/basechart';
+import { BasechartComponent } from 'src/app/charts/basechart/basechart.component';
 import { HttpServiceService } from 'src/app/http-service.service';
 
 @Component({
@@ -9,10 +10,22 @@ import { HttpServiceService } from 'src/app/http-service.service';
 })
 export class DashboardComponent implements OnInit {
 
+  @ViewChild(BasechartComponent) baseChart!: BasechartComponent;
   amountWeeks: number = 0;
   firstWeekDay: string;
   lastWeekDay: string;
-  chartData: chartData;
+  chartData: chartData = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: 'Aantal'
+    }],
+    chartType: 'bar',
+    options: {
+      yAmountSteps: 10,
+      height: 600
+    }
+  };
   
   constructor(private http: HttpServiceService) { }
 
@@ -20,31 +33,15 @@ export class DashboardComponent implements OnInit {
     this.prepareDataWeek();
   }
 
-  createChartdata(): void {
-    this.chartData = {
-      labels: [],
-      datasets: [{
-        data: [],
-        label: 'Aantal'
-      }],
-      chartType: 'bar',
-      options: {
-        yAmountSteps: 10,
-        height: 600
-      }
-    }
-  }
-
   prepareDataWeek(): void {
-    this.createChartdata();
     this.firstWeekDay = this.getStartOfWeek();
     this.lastWeekDay = this.getEndOfWeek();
 
-    this.chartData.labels.length = 0;
-    this.chartData.datasets[0].data.length = 0;
-
     this.http.get('/DetectedDatas?startDate=' + this.firstWeekDay + '&endDate=' + this.lastWeekDay).subscribe(resp => {
       const data:any = resp.body;
+
+      this.chartData.labels = [];
+      this.chartData.datasets[0].data = [];
 
       for (let i = 0; i < 7; i++) {
         const datum = new Date(this.firstWeekDay);
@@ -61,6 +58,8 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
+
+      this.baseChart.updateChart();
     });
   }
 

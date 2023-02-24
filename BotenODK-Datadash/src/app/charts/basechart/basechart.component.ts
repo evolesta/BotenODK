@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { delay } from 'rxjs';
 import { BarchartComponent } from '../barchart/barchart.component';
-import { Chart, chartData } from '../basechart';
+import { Chart, chartData, dataset } from '../basechart';
 import { EmptychartComponent } from '../emptychart/emptychart.component';
 import { LinechartComponent } from '../linechart/linechart.component';
 
@@ -12,29 +12,24 @@ import { LinechartComponent } from '../linechart/linechart.component';
 })
 export class BasechartComponent implements OnInit {
   
-  _chartData: chartData;
-  @Input()
-  get chartData(): any { return this._chartData; }
-  set chartData(chartData: chartData) {
-    this._chartData = chartData;
-    this.setStrategy();
-  }
+  @Input('chartData') chartData: chartData;
   @ViewChild('chart', {read: ViewContainerRef}) chart!: ViewContainerRef;
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.updateChart();
   }
 
   ngAfterViewInit() {
     this.cdRef.detectChanges();
   }
 
-  setStrategy(): void {
+  updateChart(): void {
     // controleren of er data is om te presenteren
-    console.log(this.getHighestValueInDataset())
+    const highestValue = this.getHighestValueInDataset();
 
-    if (this.getHighestValueInDataset() == 0) {
+    if (highestValue === 0) {
       // presenteer een emptychart (zonder data)
       const emptyStrategy = new Chart(new EmptychartComponent);
       this.chartData.empty = true;
@@ -62,16 +57,20 @@ export class BasechartComponent implements OnInit {
 
   getHighestValueInDataset(): number {
     // zoek het hoogste getal in de data van de datasets
-    var highestValue = 0;
+    let highestValue = 0;
 
     for (let i = 0; i < this.chartData.datasets.length; i++) {
-      var highestVal = Math.max(...this.chartData.datasets[i].data);
 
-      if (highestValue < highestVal) {
-        highestValue = highestVal;
+      for (let x = 0; x < this.chartData.datasets[i].data.length; x++) {
+
+        let currValue = this.chartData.datasets[i].data[x];
+        
+        if (currValue > highestValue) {
+          highestValue = currValue;
+        }
       }
     }
-
+    
     return highestValue;
   }
 
